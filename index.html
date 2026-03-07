@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Donald B. Havery — AI Orchestration Engineer</title>
   <meta name="description" content="Portfolio of Donald B. Havery — AI Orchestration Engineer. Multi-agent systems, LLM infrastructure, voice pipelines, and production AI platforms.">
+  <meta property="og:title" content="Don Havery — AI Systems Engineer">
+  <meta property="og:description" content="AI infrastructure engineer building multi-agent systems, LLM gateways, and production ML tooling.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%231a1a1a'/><text x='50' y='68' font-family='sans-serif' font-size='60' font-weight='700' fill='%234a9eff' text-anchor='middle'>D</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
@@ -138,6 +143,27 @@
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--text-primary); }
+
+    /* Hamburger button — mobile only */
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: var(--space-sm);
+      z-index: 200;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text-primary);
+      margin: 5px 0;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
     /* ═══════════════════════════════════════════════════════════════════
        HERO
@@ -439,8 +465,30 @@
     /* ═══════════════════════════════════════════════════════════════════
        RESPONSIVE
        ═══════════════════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+      .tech-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
     @media (max-width: 640px) {
-      .nav-links { display: none; }
+      .nav-hamburger { display: block; }
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(20, 20, 20, 0.97);
+        backdrop-filter: blur(16px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-xl);
+        z-index: 150;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 22px; }
       .hero { padding: 60px 0 var(--space-xl); }
       .projects-grid { grid-template-columns: 1fr; }
       .tech-grid { grid-template-columns: 1fr; }
@@ -454,12 +502,17 @@
   <nav>
     <div class="container">
       <span class="nav-logo">DBH</span>
-      <ul class="nav-links">
+      <ul class="nav-links" id="navLinks">
         <li><a href="#projects">Projects</a></li>
         <li><a href="#tech">Tech Stack</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </nav>
 
@@ -468,12 +521,14 @@
     <div class="container">
       <h1>Donald B. Havery</h1>
       <p class="subtitle">
-        AI Orchestration Engineer building multi-agent systems, LLM infrastructure,
-        real-time voice pipelines, and production AI platforms.
+        30 years moving fuel across continents built the systems thinking.
+        Now I build the AI infrastructure that makes complex operations intelligent.
+      </p>
+      <p class="subtitle" style="font-size: 14px; color: var(--text-muted); margin-top: calc(-1 * var(--space-lg));">
         60K+ lines of code across 15 repositories. Open to opportunities.
       </p>
       <div class="hero-cta">
-        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#projects" class="btn btn-primary">See What I Built</a>
         <a href="https://github.com/dbhavery" class="btn btn-ghost" target="_blank" rel="noopener">GitHub Profile</a>
         <a href="mailto:dbhavery@gmail.com" class="btn btn-ghost">Get in Touch</a>
       </div>
@@ -777,10 +832,10 @@
         <div class="tech-category">
           <h3>Tools</h3>
           <ul class="tech-list">
-            <li>Git / GitHub</li>
-            <li>VS Code + Claude Code</li>
+            <li>CUDA / GPU Computing</li>
+            <li>Model Evaluation</li>
+            <li>Distributed Systems</li>
             <li>pytest / Jest</li>
-            <li>Tailscale VPN</li>
             <li>Ollama (Local LLM)</li>
           </ul>
         </div>
@@ -840,9 +895,24 @@
   <!-- FOOTER -->
   <footer>
     <div class="container">
-      <p>&copy; 2026 Donald B. Havery. Built with care, deployed on Vercel.</p>
+      <p>&copy; 2026 Don Havery</p>
     </div>
   </footer>
+
+  <script>
+    const hamburger = document.getElementById('navHamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navLinks.classList.remove('open');
+      });
+    });
+  </script>
 
 </body>
 </html>
