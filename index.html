@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Donald B. Havery — AI Systems Engineer</title>
-  <meta name="description" content="Portfolio of Donald B. Havery — AI Systems Engineer & Full-Stack Developer. Multi-agent AI systems, voice pipelines, computer vision, and enterprise SaaS.">
+  <title>Donald B. Havery — AI Orchestration Engineer</title>
+  <meta name="description" content="Portfolio of Donald B. Havery — AI Orchestration Engineer. Multi-agent systems, LLM infrastructure, voice pipelines, and production AI platforms.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
@@ -468,8 +468,9 @@
     <div class="container">
       <h1>Donald B. Havery</h1>
       <p class="subtitle">
-        AI Systems Engineer & Full-Stack Developer building multi-agent AI systems,
-        real-time voice pipelines, computer vision applications, and enterprise SaaS platforms.
+        AI Orchestration Engineer building multi-agent systems, LLM infrastructure,
+        real-time voice pipelines, and production AI platforms.
+        930+ commits. 170K+ lines. Open to opportunities.
       </p>
       <div class="hero-cta">
         <a href="#projects" class="btn btn-primary">View Projects</a>
@@ -484,10 +485,42 @@
     <div class="container">
       <div class="section-header">
         <h2>Projects</h2>
-        <p>Production systems spanning AI, voice, vision, and enterprise software</p>
+        <p>Multi-agent orchestration, LLM infrastructure, and production AI systems</p>
       </div>
 
       <div class="projects-grid">
+        <!-- Citadel -->
+        <div class="project-card">
+          <div class="card-header">
+            <div class="card-icon">&#x1F3F0;</div>
+            <div>
+              <div class="card-title">Citadel</div>
+              <div class="card-subtitle">AI Operations Platform</div>
+            </div>
+          </div>
+          <p class="card-desc">
+            Modular monorepo for production AI infrastructure. LLM gateway with multi-provider routing,
+            semantic caching, and circuit breakers. HNSW vector search built from the original paper.
+            ReAct agent runtime with tool registry. Document ingestion pipeline. Full observability
+            with cost tracking and alerting.
+          </p>
+          <div class="card-tags">
+            <span class="tag">Python</span>
+            <span class="tag">FastAPI</span>
+            <span class="tag">HNSW</span>
+            <span class="tag">ReAct Agents</span>
+            <span class="tag">Docker</span>
+          </div>
+          <div class="card-stats">
+            <span><strong>6</strong> packages</span>
+            <span><strong>11K+</strong> lines</span>
+            <span><strong>100</strong> tests</span>
+          </div>
+          <a href="https://github.com/dbhavery/citadel" class="card-link" target="_blank" rel="noopener">
+            View on GitHub &#x2192;
+          </a>
+        </div>
+
         <!-- Vox -->
         <div class="project-card">
           <div class="card-header">
@@ -498,18 +531,16 @@
             </div>
           </div>
           <p class="card-desc">
-            Multi-agent orchestration framework with real-time voice pipeline, 5-model LLM routing
-            (local + cloud), photorealistic avatar animation, and 30+ tool capabilities.
-            7 specialized AI agents coordinated by a LangGraph-style router.
+            Multi-agent orchestration framework with 7 specialized agents coordinated by an intent router.
+            5-model LLM routing (Claude, Gemini, Ollama), real-time voice pipeline (Whisper STT,
+            Chatterbox TTS, Silero VAD), and photorealistic avatar animation.
           </p>
           <div class="card-tags">
             <span class="tag">Python</span>
             <span class="tag">PyTorch</span>
+            <span class="tag">Multi-Agent</span>
             <span class="tag">Whisper</span>
-            <span class="tag">Claude</span>
-            <span class="tag">Gemini</span>
             <span class="tag">ChromaDB</span>
-            <span class="tag">PySide6</span>
           </div>
           <div class="card-stats">
             <span><strong>135K+</strong> lines</span>
@@ -521,64 +552,94 @@
           </a>
         </div>
 
-        <!-- CodeRev -->
+        <!-- Herald -->
         <div class="project-card">
           <div class="card-header">
-            <div class="card-icon">&#x1F50D;</div>
+            <div class="card-icon">&#x1F4AC;</div>
             <div>
-              <div class="card-title">CodeRev</div>
-              <div class="card-subtitle">AI Code Review Bot</div>
+              <div class="card-title">Herald</div>
+              <div class="card-subtitle">Customer Operations Stack</div>
             </div>
           </div>
           <p class="card-desc">
-            GitHub App that uses Claude to automatically review pull requests.
-            Finds bugs, security vulnerabilities, and code smells with severity-tagged
-            comments posted directly on PRs. Includes a review dashboard API with metrics.
+            AI-powered customer operations platform. Chatbot with knowledge search, support rep copilot
+            with AI-suggested responses, customer health scoring with churn prediction, ticket
+            auto-categorization, onboarding flows, and sentiment analytics.
           </p>
           <div class="card-tags">
             <span class="tag">Python</span>
             <span class="tag">FastAPI</span>
-            <span class="tag">Claude API</span>
-            <span class="tag">GitHub Webhooks</span>
-            <span class="tag">Docker</span>
+            <span class="tag">TF-IDF</span>
+            <span class="tag">Sentiment</span>
+            <span class="tag">SQLite</span>
           </div>
           <div class="card-stats">
-            <span><strong>15</strong> tests</span>
-            <span><strong>HMAC</strong> auth</span>
-            <span><strong>REST</strong> dashboard</span>
+            <span><strong>49</strong> tests</span>
+            <span><strong>22</strong> endpoints</span>
+            <span><strong>8</strong> tables</span>
           </div>
-          <a href="https://github.com/dbhavery/coderev" class="card-link" target="_blank" rel="noopener">
+          <a href="https://github.com/dbhavery/herald" class="card-link" target="_blank" rel="noopener">
             View on GitHub &#x2192;
           </a>
         </div>
 
-        <!-- Cortex -->
+        <!-- Sentinel -->
         <div class="project-card">
           <div class="card-header">
-            <div class="card-icon">&#x1F4F7;</div>
+            <div class="card-icon">&#x1F6E1;</div>
             <div>
-              <div class="card-title">Cortex</div>
-              <div class="card-subtitle">AI Media Cataloger</div>
+              <div class="card-title">Sentinel</div>
+              <div class="card-subtitle">Compliance Autopilot</div>
             </div>
           </div>
           <p class="card-desc">
-            AI-powered media processing pipeline with BLIP image captioning, InsightFace face clustering,
-            Google Photos/Drive sync, and semantic search. FastAPI backend with React gallery frontend.
+            Automated compliance management for SOC 2, GDPR, and HIPAA. Gap analysis against 37 real
+            regulatory requirements, document scanning, AI policy generation, drift monitoring,
+            alerting, and audit-ready report generation.
           </p>
           <div class="card-tags">
             <span class="tag">Python</span>
             <span class="tag">FastAPI</span>
-            <span class="tag">BLIP</span>
-            <span class="tag">InsightFace</span>
-            <span class="tag">React</span>
-            <span class="tag">Docker</span>
+            <span class="tag">Compliance</span>
+            <span class="tag">AI Policy Gen</span>
+            <span class="tag">SQLite</span>
           </div>
           <div class="card-stats">
-            <span><strong>5,700+</strong> items</span>
-            <span><strong>28</strong> tests</span>
-            <span><strong>Google</strong> sync</span>
+            <span><strong>50</strong> tests</span>
+            <span><strong>37</strong> requirements</span>
+            <span><strong>14</strong> templates</span>
           </div>
-          <a href="https://github.com/dbhavery/cortex" class="card-link" target="_blank" rel="noopener">
+          <a href="https://github.com/dbhavery/sentinel" class="card-link" target="_blank" rel="noopener">
+            View on GitHub &#x2192;
+          </a>
+        </div>
+
+        <!-- Vaultwise -->
+        <div class="project-card">
+          <div class="card-header">
+            <div class="card-icon">&#x1F4DA;</div>
+            <div>
+              <div class="card-title">Vaultwise</div>
+              <div class="card-subtitle">Knowledge Management Platform</div>
+            </div>
+          </div>
+          <p class="card-desc">
+            Ingest company documents, TF-IDF vector search, AI-powered Q&A with source citations,
+            auto-generated training articles and quizzes, and knowledge gap analytics dashboard.
+          </p>
+          <div class="card-tags">
+            <span class="tag">Python</span>
+            <span class="tag">FastAPI</span>
+            <span class="tag">TF-IDF</span>
+            <span class="tag">Ollama</span>
+            <span class="tag">SQLite</span>
+          </div>
+          <div class="card-stats">
+            <span><strong>51</strong> tests</span>
+            <span><strong>17</strong> endpoints</span>
+            <span><strong>7</strong> tables</span>
+          </div>
+          <a href="https://github.com/dbhavery/vaultwise" class="card-link" target="_blank" rel="noopener">
             View on GitHub &#x2192;
           </a>
         </div>
@@ -603,7 +664,6 @@
             <span class="tag">PostgreSQL</span>
             <span class="tag">WebSocket</span>
             <span class="tag">Vercel</span>
-            <span class="tag">Railway</span>
           </div>
           <div class="card-stats">
             <span><strong>11</strong> repos</span>
@@ -626,8 +686,8 @@
           </div>
           <p class="card-desc">
             Autonomous development loop for Claude Code with intelligent exit detection,
-            dual-condition exit gates, circuit breaker patterns, and comprehensive test coverage.
-            Fork with 206+ commits of custom enhancements.
+            dual-condition exit gates, and circuit breaker patterns.
+            Featured in Awesome Claude Code.
           </p>
           <div class="card-tags">
             <span class="tag">Bash</span>
@@ -636,38 +696,40 @@
             <span class="tag">Process Control</span>
           </div>
           <div class="card-stats">
-            <span><strong>206+</strong> commits</span>
-            <span><strong>566+</strong> tests</span>
+            <span><strong>566</strong> tests</span>
+            <span><strong>Awesome</strong> Claude Code</span>
           </div>
           <a href="https://github.com/dbhavery/ralph-claude-code" class="card-link" target="_blank" rel="noopener">
             View on GitHub &#x2192;
           </a>
         </div>
 
-        <!-- Design System -->
+        <!-- Developer Tools -->
         <div class="project-card">
           <div class="card-header">
-            <div class="card-icon">&#x1F3A8;</div>
+            <div class="card-icon">&#x1F527;</div>
             <div>
-              <div class="card-title">StaFull Design System</div>
-              <div class="card-subtitle">Component Library</div>
+              <div class="card-title">AI Dev Tools</div>
+              <div class="card-subtitle">promptlab / ragtest / fineforge / mcplex</div>
             </div>
           </div>
           <p class="card-desc">
-            Dark industrial design system with 40+ reusable components, design token architecture,
-            and themed UI kit. Built for data-dense enterprise interfaces with fuel delivery branding.
+            Suite of developer tools: promptlab (pytest for LLM prompts), ragtest (RAG evaluation suite),
+            fineforge (QLoRA fine-tuning pipeline for consumer GPUs), mcplex (MCP server for local AI models).
+            All pip-installable with CLI interfaces.
           </p>
           <div class="card-tags">
-            <span class="tag">React</span>
-            <span class="tag">TypeScript</span>
-            <span class="tag">CSS Tokens</span>
-            <span class="tag">Vite</span>
+            <span class="tag">Python</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">MCP</span>
+            <span class="tag">CLI</span>
+            <span class="tag">pip</span>
           </div>
           <div class="card-stats">
-            <span><strong>40+</strong> components</span>
-            <span><strong>Dark</strong> theme</span>
+            <span><strong>4</strong> tools</span>
+            <span><strong>181</strong> tests</span>
           </div>
-          <a href="https://github.com/dbhavery/stafull-design-system" class="card-link" target="_blank" rel="noopener">
+          <a href="https://github.com/dbhavery?tab=repositories" class="card-link" target="_blank" rel="noopener">
             View on GitHub &#x2192;
           </a>
         </div>
@@ -685,15 +747,15 @@
 
       <div class="tech-grid">
         <div class="tech-category">
-          <h3>AI / ML</h3>
+          <h3>AI / Orchestration</h3>
           <ul class="tech-list">
-            <li>Claude (Anthropic)</li>
-            <li>Gemini (Google)</li>
-            <li>Ollama / Qwen / Llama</li>
-            <li>PyTorch</li>
-            <li>HuggingFace Transformers</li>
-            <li>ChromaDB / RAG</li>
-            <li>BLIP / InsightFace</li>
+            <li>Multi-Agent Systems</li>
+            <li>LLM Gateway / Routing</li>
+            <li>ReAct Agent Runtime</li>
+            <li>Claude / Gemini / Ollama</li>
+            <li>HNSW / TF-IDF / RAG</li>
+            <li>PyTorch / HuggingFace</li>
+            <li>MCP (Model Context Protocol)</li>
           </ul>
         </div>
 
@@ -763,16 +825,18 @@
       </div>
       <div class="about-content">
         <p>
-          I build AI systems that work in the real world. My focus is on multi-agent architectures,
-          real-time voice and vision pipelines, and production-grade software that runs on consumer hardware.
+          I design and build the orchestration layer between raw LLMs and useful products &mdash;
+          agent runtimes, LLM gateways, voice pipelines, and the infrastructure that makes
+          AI systems reliable in production.
         </p>
         <p>
-          Currently based in Portland, OR. Working with local-first AI deployment on NVIDIA GPUs,
-          building tools that combine multiple LLM providers (Claude, Gemini, Ollama) into
-          coordinated systems with voice interfaces and persistent memory.
+          30 years and 3.5M+ miles in transportation operations built the systems thinking.
+          930+ commits and 170K+ lines of code turned it into software. I work across the
+          full stack &mdash; Python, React, TypeScript, FastAPI &mdash; with deep focus on
+          multi-agent coordination, LLM routing, and real-time pipelines.
         </p>
         <p>
-          Open to AI engineering, full-stack, and systems engineering roles.
+          Currently seeking roles in AI orchestration, agent infrastructure, and production AI systems.
         </p>
       </div>
     </div>
