@@ -1,0 +1,96 @@
+{
+  "_description": "Single source of truth for portfolio metrics. Used by update-profiles.py to keep all profile documents in sync.",
+  "_updated": "2026-03-09",
+
+  "repos": 37,
+  "commits": "1,372+",
+  "loc": "888K+",
+  "totalTests": "2,000+",
+
+  "projects": {
+    "aether": {
+      "name": "Aether",
+      "subtitle": "AI Assistant Framework",
+      "commits": "368+",
+      "loc_v1": "152K+",
+      "loc_v2": "9.5K",
+      "tests": "728+",
+      "modules": 12,
+      "tools": 32,
+      "skills": 509,
+      "voiceLatency": "449ms",
+      "agents": 7,
+      "llmTiers": 5
+    },
+    "citadel": {
+      "name": "Citadel",
+      "subtitle": "AI Operations Platform",
+      "packages": 6,
+      "loc": "10K+",
+      "coverage": "100%"
+    },
+    "dispatch": {
+      "name": "Dispatch",
+      "subtitle": "Fleet Management SaaS",
+      "repos": 11,
+      "commits": "225+",
+      "loc": "19K+",
+      "css": "19K+",
+      "portals": 6,
+      "accessTiers": 9,
+      "simInputs": 255
+    },
+    "cortex": {
+      "name": "Cortex",
+      "subtitle": "AI Media Cataloger",
+      "tests": 164,
+      "fileTypes": 28,
+      "aiModels": 3
+    },
+    "herald": {
+      "name": "Herald",
+      "subtitle": "Customer Operations Platform",
+      "tests": 95,
+      "endpoints": 34,
+      "tables": 8
+    },
+    "sentinel": {
+      "name": "Sentinel",
+      "subtitle": "Compliance Autopilot",
+      "tests": 50,
+      "requirements": 62,
+      "templates": 14
+    },
+    "vaultwise": {
+      "name": "Vaultwise",
+      "subtitle": "Knowledge Management",
+      "tests": 133,
+      "endpoints": 20,
+      "tables": 7
+    },
+    "autoloop": {
+      "name": "Autoloop",
+      "subtitle": "Autonomous Dev Loop",
+      "tests": 573,
+      "exitLayers": 3
+    },
+    "cige": {
+      "name": "Custom Image Generator & Editor",
+      "subtitle": "Local AI Image Generation",
+      "tests": 127,
+      "genModes": 3
+    },
+    "devtools": {
+      "name": "AI Dev Tools",
+      "tools": 5,
+      "tests": 196,
+      "components": "promptlab / ragtest / fineforge / mcplex / coderev"
+    }
+  },
+
+  "personal": {
+    "experience": "30 years",
+    "miles": "3.5M+",
+    "selfStudyHours": "1,000+"
+  }
+}

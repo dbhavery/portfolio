@@ -1,0 +1,71 @@
+=== EXPERIENCE 1 ===
+Title: AI Systems Engineer
+Company: Independent
+Duration: 2024 - Present
+
+Description (paste below):
+
+I build the orchestration layer between LLMs and production applications — routing, agent coordination, observability, and the infrastructure that makes AI systems reliable at scale.
+
+Built Citadel (AI operations platform): Multi-provider LLM gateway that eliminates single-provider lock-in and reduces inference costs through semantic caching ($0.01-0.10 saved per cached hit). HNSW vector search implemented from the Malkov & Yashunin 2018 paper — zero external vector DB dependency, eliminating $70+/mo managed service costs. ReAct agent runtime with YAML-defined agents. Auto-instrumentation captures every LLM call's latency, tokens, and cost. 6 independent packages, 10K+ lines, 100% test coverage.
+
+Architected Aether (modular AI assistant framework): 449ms p50 end-to-end voice response latency. 5-tier LLM routing optimizes cost vs quality — 70%+ of queries handled by local Ollama models at zero API cost, with Claude/Gemini reserved for complex reasoning. 12 independent modules including voice I/O, persistent memory with hybrid search (BM25 + dense retrieval), animated avatar at 20-25 FPS, and desktop GUI. 152K+ lines, 728+ tests.
+
+Built four connected AI business products: Herald (customer ops — AI chatbot with citation-backed responses reducing support response time from minutes to seconds, TF-IDF sentiment analytics, churn prediction, 95 tests), Vaultwise (knowledge management — TF-IDF search from scratch with zero ML dependency, auto-generated training content and quizzes, 133 tests), Sentinel (compliance autopilot — gap analysis against 62 real SOC 2/GDPR/HIPAA requirements in seconds vs weeks of manual audit, AI policy generation, drift monitoring, 50 tests), Cortex (AI media cataloger — BLIP captioning, InsightFace face recognition, Google Photos/Drive sync, 164 tests).
+
+Built a local AI image generator and editor (CIGE) — desktop app with FLUX.1-dev and RealVisXL Lightning for txt2img, img2img, and inpainting. $0 per image on consumer GPUs vs $0.02-0.10 on cloud APIs. Custom FLUX inpainting pipeline, VRAM-aware model management, professional neumorphic UI. 127 tests.
+
+Architected Dispatch — enterprise SaaS platform for mobile fuel delivery: 6 role-based portals, 9 access tiers, real-time fleet tracking, AI route optimization, 255-input simulation engine. 11 repositories, deployed on Railway + Vercel.
+
+Created five pip-installable developer tools: promptlab (parallel multi-provider prompt testing), ragtest (RAG evaluation with precision/recall/NDCG), fineforge (QLoRA fine-tuning on consumer GPUs at $0 cloud cost), mcplex (MCP server bridging local models to any MCP client), coderev (AI code review GitHub App). 196 tests combined.
+
+Built Autoloop — autonomous development loop for Claude Code with dual-condition exit gate, circuit breaker pattern, and 573 BATS tests.
+
+37 GitHub repositories, 1,372+ commits, 888K+ lines of production code, 2,000+ automated tests.
+
+Currently pursuing: Google Cloud Professional ML Engineer | AWS ML Engineer Associate | DeepLearning.AI Generative AI with LLMs
+
+Python, FastAPI, PyTorch, Claude, Gemini, Ollama, React, TypeScript, ChromaDB, Docker
+
+
+=== EXPERIENCE 2 ===
+Title: Transportation Operations Specialist (Line Driver)
+Company: Old Dominion Freight Lines
+Duration: 2022 - Present
+Location: Portland, OR
+
+Description (paste below):
+
+Line haul freight operations across the Pacific Northwest for one of the nation's largest LTL carriers. Manage load integrity, DOT compliance, and on-time delivery across multi-stop routes. Coordinate with dispatch, dock operations, and terminal teams in real-time. CDL Class A with Hazmat, Tanker, and Doubles/Triples endorsements. 30 years of managing complex multi-variable systems — routing, scheduling, compliance, real-time optimization — directly informs how I architect software systems.
+
+
+=== EXPERIENCE 3 ===
+Title: Transportation Operations Specialist (Line Driver) / Driver Trainer
+Company: Peninsula Freight Lines
+Duration: 2017 - 2021
+Location: Portland, OR
+
+Description (paste below):
+
+Line haul and regional freight operations with consistent safety and on-time performance records. Selected as certified driver trainer — assessed skills, provided road instruction, and ensured safety compliance for new drivers. Bridge between drivers, dispatch, and terminal operations — translating operational complexity into actionable execution.
+
+
+=== EXPERIENCE 4 ===
+Title: Operator
+Company: Alpha Transport
+Duration: 2012 - 2017
+Location: Portland, OR
+
+Description (paste below):
+
+Commercial vehicle operations across Western states routes. Maintained safety compliance and equipment standards across long-haul operations. Built the foundational logistics experience that informs current AI systems architecture.
+
+
+=== EXPERIENCE 5 ===
+Title: Supervisor / Dispatcher / Driver Trainer / Operator
+Company: Various Companies
+Duration: ~1996 - 2012
+
+Description (paste below):
+
+Held supervisory positions managing teams of 5-6 across daily freight operations. Dispatched regional areas coordinating dozens of employees, routes, and schedules. Trained dozens of drivers to successfully obtain CDL certifications. Accumulated 3.5M+ career miles of safe commercial driving across 30 years in the transportation industry.
