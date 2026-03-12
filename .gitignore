@@ -3,3 +3,24 @@
 *.db
 *.sqlite
 *.sqlite3
+
+# Large binaries — never commit
+*.wav
+*.mp3
+*.webm
+voice_samples/
+drafts/voice_samples/
+drafts/assets/interview/*.wav
+drafts/assets/interview/*.webm
+
+# Python
+__pycache__/
+*.pyc
+
+# Reference docs (not deployed)
+Gmail - *.pdf
+Coursera*.pdf
+*.docx
+
+# Generated (served from GitHub raw URL)
+Donald_Havery_Resume.pdf

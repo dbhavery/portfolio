@@ -232,6 +232,43 @@
     .btn-ghost:hover { color: var(--text-primary); border-color: rgba(255,255,255,0.2); }
 
     /* ═══════════════════════════════════════════════════════════════════
+       STATS BAR
+       ═══════════════════════════════════════════════════════════════════ */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-xl);
+      flex-wrap: wrap;
+      padding: var(--space-xl) 0;
+      border-bottom: var(--border-subtle);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: var(--font-heading);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .stats-bar { gap: var(--space-lg); }
+      .stat-value { font-size: 22px; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
        SECTION HEADERS
        ═══════════════════════════════════════════════════════════════════ */
     .section-header {
@@ -527,7 +564,7 @@
         Now I build the AI infrastructure that makes complex operations intelligent.
       </p>
       <p class="subtitle" style="font-size: 14px; color: var(--text-muted); margin-top: calc(-1 * var(--space-lg));">
-        95K+ lines of code across 16 repositories. Every project ships with architecture decisions, comprehensive tests, and honest lessons learned.
+        Every project ships with architecture decisions, comprehensive tests, and honest lessons learned.
       </p>
       <div class="hero-cta">
         <a href="#projects" class="btn btn-primary">See What I Built</a>
@@ -536,6 +573,28 @@
       </div>
     </div>
   </section>
+
+  <!-- STATS BAR -->
+  <div class="container">
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-value" data-metric="commits" data-suffix="+">1,372+</div>
+        <div class="stat-label">Commits</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" data-metric="repos">37</div>
+        <div class="stat-label">Repositories</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" data-metric="loc" data-suffix="K+">888K+</div>
+        <div class="stat-label">Lines of Code</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" data-metric="tests" data-suffix="+">2,000+</div>
+        <div class="stat-label">Tests</div>
+      </div>
+    </div>
+  </div>
 
   <!-- PROJECTS -->
   <section id="projects">
@@ -942,6 +1001,7 @@
   </footer>
 
   <script>
+    // Mobile nav
     const hamburger = document.getElementById('navHamburger');
     const navLinks = document.getElementById('navLinks');
     hamburger.addEventListener('click', () => {
@@ -954,6 +1014,48 @@
         navLinks.classList.remove('open');
       });
     });
+
+    // Live stats from GitHub API
+    (async function() {
+      if (location.protocol === 'file:') return;
+      const CACHE_KEY = 'portfolio_gh_stats';
+      const CACHE_TTL = 3600000;
+      const FLOOR = { totalRepos: 37, totalCommits: 1372, totalLOCKilos: 888 };
+
+      function fmt(n, suffix) {
+        const s = suffix || '';
+        return (n >= 1000 ? n.toLocaleString() : n) + s;
+      }
+
+      function apply(data) {
+        const map = { repos: data.totalRepos, commits: data.totalCommits, loc: data.totalLOCKilos };
+        document.querySelectorAll('[data-metric]').forEach(el => {
+          const key = el.dataset.metric;
+          if (map[key] == null) return;
+          const suffix = el.dataset.suffix || '';
+          el.textContent = fmt(map[key], suffix);
+        });
+      }
+
+      try {
+        const raw = localStorage.getItem(CACHE_KEY);
+        if (raw) {
+          const cached = JSON.parse(raw);
+          if (Date.now() - cached.ts < CACHE_TTL) { apply(cached.data); return; }
+        }
+      } catch { localStorage.removeItem(CACHE_KEY); }
+
+      try {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), 5000);
+        const res = await fetch('/api/github-stats', { signal: ctrl.signal });
+        clearTimeout(t);
+        if (!res.ok) return;
+        const data = await res.json();
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+        apply(data);
+      } catch {}
+    })();
   </script>
 
 </body>

@@ -21,16 +21,15 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 METRICS_FILE = REPO_ROOT / "metrics.json"
 
 # Files to update (relative to REPO_ROOT)
+# Single source of truth for resume: Donald_Havery_Resume.md
+# All other resume copies (OnePage, HTML, Documents/resume/) have been removed.
 PROFILE_FILES = [
     "Donald_Havery_Resume.md",
-    "Donald_Havery_OnePage_Resume.md",
     "Cover_Letter_Template.md",
     "LinkedIn_Optimization_Guide.md",
     "linkedin-description.txt",
+    "linkedin-posts.md",
 ]
-
-# Also update the Documents copy
-DOCUMENTS_RESUME = Path.home() / "Documents" / "resume" / "Donald_Havery_Resume.md"
 
 
 def load_metrics() -> dict:
@@ -149,9 +148,6 @@ def main() -> None:
     for filename in PROFILE_FILES:
         filepath = REPO_ROOT / filename
         total_changes += update_file(filepath, replacements, dry_run=not apply)
-
-    print("\nUpdating Documents/resume/ copy:")
-    total_changes += update_file(DOCUMENTS_RESUME, replacements, dry_run=not apply)
 
     print(f"\nTotal: {total_changes} replacements {'would be made' if not apply else 'applied'}")
 
