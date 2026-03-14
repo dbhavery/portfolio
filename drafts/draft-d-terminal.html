@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donald B. Havery — AI Systems Engineer</title>
+<meta name="description" content="Donald B. Havery — AI Systems Engineer. Multi-agent orchestration, real-time voice pipelines, and production AI infrastructure.">
+<meta name="author" content="Donald B. Havery">
+<meta property="og:title" content="Donald B. Havery — AI Systems Engineer">
+<meta property="og:description" content="Building multi-agent orchestration, real-time voice pipelines, and production AI infrastructure.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dbhavery.dev">
+<link rel="canonical" href="https://dbhavery.dev">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Donald B. Havery",
+  "alternateName": "Don Havery",
+  "jobTitle": "AI Systems Engineer",
+  "url": "https://dbhavery.dev",
+  "sameAs": [
+    "https://github.com/dbhavery",
+    "https://huggingface.co/dbhavery",
+    "https://linkedin.com/in/dbhavery"
+  ],
+  "email": "dbhavery@gmail.com",
+  "knowsAbout": [
+    "Artificial Intelligence", "Multi-Agent Systems", "LLM Orchestration",
+    "Machine Learning", "Python", "FastAPI", "Real-Time Voice Pipelines",
+    "Production AI Infrastructure"
+  ]
+}
+</script>
+<style>
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --green: #00ff41;
+  --green-dim: #00cc33;
+  --green-dark: #004d00;
+  --green-ghost: #001a00;
+  --amber: #ffb000;
+  --red: #ff3333;
+  --bg: #000000;
+  --bg-tint: #000a00;
+  --text: #00ff41;
+  --text-dim: #009926;
+  --glow: 0 0 8px rgba(0, 255, 65, 0.6);
+  --glow-strong: 0 0 15px rgba(0, 255, 65, 0.8), 0 0 30px rgba(0, 255, 65, 0.3);
+  --font: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--green-dark) var(--bg);
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--green-dark); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── Scanline Overlay ── */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+}
+
+/* ── CRT Container ── */
+.crt-wrap {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  .crt-wrap {
+    border-left: 1px solid var(--green-dark);
+    border-right: 1px solid var(--green-dark);
+    box-shadow: inset 0 0 80px rgba(0, 255, 65, 0.02);
+  }
+}
+
+/* ── Boot Sequence ── */
+#boot-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+#boot-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.boot-content {
+  max-width: 640px;
+  width: 100%;
+}
+
+.boot-line {
+  opacity: 0;
+  transform: translateY(2px);
+  white-space: pre;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.boot-line.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.15s ease;
+}
+
+.boot-line .tag-boot { color: var(--amber); }
+.boot-line .tag-ok { color: var(--green); }
+.boot-line .tag-ready { color: var(--green); font-weight: 700; text-shadow: var(--glow); }
+.boot-line .tag-fail { color: var(--red); }
+.boot-line .val { color: var(--amber); }
+
+#main-content {
+  opacity: 0;
+  transition: opacity 0.6s ease 0.2s;
+}
+
+#main-content.visible {
+  opacity: 1;
+}
+
+/* ── Blinking Cursor ── */
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  background: var(--green);
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+
+.cursor-amber {
+  background: var(--amber);
+}
+
+/* ── Typing animation ── */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.type-line {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid var(--green);
+  animation: typing 1.2s steps(40) forwards, blink 0.8s step-end 3;
+  width: 0;
+}
+
+.type-line.typed {
+  width: 100%;
+  border-right: none;
+}
+
+/* ── Navigation ── */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.95);
+  border-bottom: 1px solid var(--green-dark);
+  padding: 10px 0;
+  backdrop-filter: blur(8px);
+}
+
+.nav-prompt {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+
+.nav-user {
+  color: var(--green);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 2px 6px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.nav-links a:hover,
+.nav-links a:focus {
+  color: var(--green);
+  text-shadow: var(--glow);
+}
+
+.nav-links a::before {
+  content: '--';
+  color: var(--green-dark);
+  margin-right: 1px;
+}
+
+.nav-sep {
+  color: var(--green-dark);
+}
+
+/* ── Section Base ── */
+section {
+  margin-bottom: 48px;
+}
+
+.section-cmd {
+  color: var(--amber);
+  font-size: 12px;
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+.section-cmd span {
+  color: var(--green-dim);
+}
+
+/* ── Hero ── */
+.hero {
+  margin-top: 32px;
+  margin-bottom: 48px;
+}
+
+.hero-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.hero-photo-frame {
+  flex-shrink: 0;
+  border: 1px solid var(--green-dim);
+  padding: 4px;
+  position: relative;
+  background: var(--bg);
+}
+
+.hero-photo-frame::before {
+  content: '┌── headshot.webp ──┐';
+  position: absolute;
+  top: -10px;
+  left: 8px;
+  font-size: 10px;
+  color: var(--green-dark);
+  background: var(--bg);
+  padding: 0 4px;
+}
+
+.hero-photo {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(30%) brightness(0.9);
+  mix-blend-mode: screen;
+}
+
+.hero-box {
+  flex: 1;
+  min-width: 260px;
+}
+
+.hero-ascii {
+  color: var(--green-dark);
+  font-size: 12px;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.hero-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--green);
+  text-shadow: var(--glow-strong);
+  letter-spacing: 2px;
+  margin-bottom: 2px;
+}
+
+.hero-title {
+  color: var(--amber);
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.hero-sep {
+  color: var(--green-dark);
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.hero-desc {
+  color: var(--green-dim);
+  font-size: 13px;
+  line-height: 1.7;
+  max-width: 480px;
+}
+
+.hero-ascii-bottom {
+  color: var(--green-dark);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* ── Profile Links ── */
+.profile-links {
+  margin-top: 32px;
+  margin-bottom: 48px;
+  padding: 16px 0;
+  border: 1px solid var(--green-dark);
+  background: rgba(0, 20, 0, 0.3);
+}
+
+.profile-links-header {
+  color: var(--amber);
+  font-size: 11px;
+  padding: 0 16px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  padding: 6px 16px;
+  text-decoration: none;
+  color: var(--green);
+  font-size: 13px;
+  transition: all 0.15s;
+  gap: 8px;
+}
+
+.profile-link:hover {
+  background: rgba(0, 255, 65, 0.05);
+  text-shadow: var(--glow);
+}
+
+.profile-link:hover .pl-url {
+  color: var(--green);
+  text-decoration: underline;
+}
+
+.pl-prompt {
+  color: var(--green-dim);
+  flex-shrink: 0;
+}
+
+.pl-cmd {
+  color: var(--amber);
+  flex-shrink: 0;
+}
+
+.pl-url {
+  color: var(--green);
+  word-break: break-all;
+}
+
+.pl-tag {
+  color: var(--green-dark);
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: 11px;
+}
+
+.pl-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 13px;
+  background: var(--green);
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+  margin-left: 4px;
+  opacity: 0;
+}
+
+.profile-link:hover .pl-cursor {
+  opacity: 1;
+}
+
+/* ── System Status ── */
+.status-grid {
+  display: grid;
+  gap: 2px;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  padding: 4px 0;
+}
+
+.status-label {
+  color: var(--text-dim);
+  min-width: 140px;
+}
+
+.status-value {
+  color: var(--amber);
+  font-weight: 700;
+  min-width: 60px;
+}
+
+.status-bar {
+  color: var(--green-dim);
+  letter-spacing: -1px;
+  flex-shrink: 0;
+}
+
+.status-bar .filled {
+  color: var(--green);
+}
+
+.status-state {
+  color: var(--green);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.status-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green);
+  text-shadow: var(--glow);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.status-line {
+  color: var(--green-dark);
+  margin-bottom: 12px;
+}
+
+/* ── Projects ── */
+.project-list-header {
+  display: flex;
+  font-size: 11px;
+  color: var(--green-dark);
+  padding: 4px 0;
+  border-bottom: 1px solid var(--green-dark);
+  margin-bottom: 4px;
+  gap: 12px;
+}
+
+.plh-pid { min-width: 30px; }
+.plh-name { min-width: 160px; flex: 1; }
+.plh-stack { min-width: 180px; }
+.plh-stat { min-width: 80px; }
+.plh-status { min-width: 60px; }
+
+.project-item {
+  border-bottom: 1px solid rgba(0, 77, 0, 0.3);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.project-item:hover {
+  background: rgba(0, 255, 65, 0.03);
+}
+
+.project-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.proj-pid {
+  color: var(--green-dark);
+  min-width: 30px;
+  font-size: 12px;
+}
+
+.proj-name {
+  min-width: 160px;
+  flex: 1;
+}
+
+.proj-name-main {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.proj-name-sub {
+  color: var(--text-dim);
+  font-size: 11px;
+  display: block;
+}
+
+.proj-stack {
+  color: var(--text-dim);
+  min-width: 180px;
+  font-size: 11px;
+}
+
+.proj-stat {
+  color: var(--amber);
+  min-width: 80px;
+  font-size: 11px;
+}
+
+.proj-status {
+  min-width: 60px;
+  font-size: 11px;
+}
+
+.proj-status-badge {
+  color: var(--green);
+  border: 1px solid var(--green-dark);
+  padding: 1px 6px;
+  font-size: 10px;
+}
+
+.project-expand {
+  color: var(--green-dark);
+  font-size: 11px;
+  padding-left: 42px;
+  margin-top: -4px;
+  margin-bottom: 4px;
+}
+
+.project-detail {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  padding: 0 0 0 42px;
+}
+
+.project-item.open .project-detail {
+  max-height: 400px;
+  padding: 8px 0 16px 42px;
+}
+
+.project-item.open .project-expand {
+  display: none;
+}
+
+.proj-detail-cmd {
+  color: var(--green-dark);
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+.proj-detail-desc {
+  color: var(--green-dim);
+  font-size: 12px;
+  line-height: 1.7;
+  margin-bottom: 10px;
+  max-width: 640px;
+}
+
+.proj-detail-stats {
+  color: var(--text-dim);
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+.proj-detail-stats span {
+  color: var(--amber);
+}
+
+.proj-detail-link {
+  font-size: 11px;
+}
+
+.proj-detail-link a {
+  color: var(--green);
+  text-decoration: none;
+  transition: text-shadow 0.15s;
+}
+
+.proj-detail-link a:hover {
+  text-shadow: var(--glow);
+  text-decoration: underline;
+}
+
+/* ── Tech Stack ── */
+.stack-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.stack-table-head {
+  text-align: left;
+  font-size: 11px;
+  color: var(--green-dark);
+  border-bottom: 1px solid var(--green-dark);
+  padding: 4px 8px 4px 0;
+}
+
+.stack-table td {
+  padding: 3px 8px 3px 0;
+  font-size: 12px;
+  vertical-align: top;
+}
+
+.stack-cat {
+  color: var(--amber);
+  font-size: 11px;
+  min-width: 140px;
+  white-space: nowrap;
+}
+
+.stack-pkg {
+  color: var(--green-dim);
+}
+
+/* ── About ── */
+.about-output {
+  color: var(--green-dim);
+  font-size: 13px;
+  line-height: 1.8;
+  max-width: 680px;
+  padding: 12px 0;
+}
+
+.about-certs {
+  margin-top: 20px;
+  border-top: 1px solid var(--green-dark);
+  padding-top: 16px;
+}
+
+.about-certs-header {
+  color: var(--amber);
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.cert-item {
+  color: var(--green-dim);
+  font-size: 12px;
+  padding: 2px 0;
+}
+
+.cert-item::before {
+  content: '  ';
+  color: var(--green-dark);
+}
+
+.cert-item .cert-name {
+  color: var(--green);
+}
+
+.cert-item .cert-org {
+  color: var(--text-dim);
+}
+
+.cert-pursuing {
+  color: var(--text-dim);
+  font-size: 11px;
+  margin-top: 6px;
+  padding-left: 2px;
+}
+
+/* ── Footer ── */
+.footer {
+  border-top: 1px solid var(--green-dark);
+  padding: 20px 0;
+  text-align: center;
+  margin-top: 48px;
+}
+
+.footer-text {
+  color: var(--green-dark);
+  font-size: 11px;
+}
+
+.footer-text a {
+  color: var(--text-dim);
+  text-decoration: none;
+}
+
+.footer-text a:hover {
+  color: var(--green);
+}
+
+.footer-prompt {
+  color: var(--green-dark);
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .crt-wrap {
+    padding: 12px;
+  }
+
+  .hero-photo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .hero-name {
+    font-size: 18px;
+  }
+
+  .project-row {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .proj-stack, .proj-stat {
+    min-width: auto;
+  }
+
+  .plh-stack, .plh-stat, .plh-status {
+    display: none;
+  }
+
+  .proj-stack {
+    display: none;
+  }
+
+  .project-detail,
+  .project-item.open .project-detail {
+    padding-left: 12px;
+  }
+
+  .project-expand {
+    padding-left: 12px;
+  }
+
+  .status-row {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .status-label {
+    min-width: 100px;
+  }
+
+  .profile-link {
+    flex-wrap: wrap;
+    gap: 4px;
+    font-size: 12px;
+  }
+
+  .pl-tag {
+    display: none;
+  }
+
+  .nav-prompt {
+    font-size: 11px;
+  }
+
+  .stack-table td {
+    display: block;
+    padding: 2px 0;
+  }
+
+  .stack-table tr {
+    display: block;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(0, 77, 0, 0.2);
+  }
+
+  .stack-table thead {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+
+  .hero-layout {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-desc {
+    text-align: left;
+  }
+
+  .hero-name {
+    font-size: 16px;
+  }
+}
+
+/* ── Focus ── */
+a:focus-visible {
+  outline: 1px solid var(--green);
+  outline-offset: 2px;
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════ BOOT SEQUENCE ════════════════════ -->
+<div id="boot-screen" aria-hidden="true">
+  <div class="boot-content">
+    <div class="boot-line" data-delay="200"><span class="tag-boot">[BIOS]</span> POST check... <span class="val">OK</span></div>
+    <div class="boot-line" data-delay="500"><span class="tag-boot">[BOOT]</span> Initializing portfolio v2.0...</div>
+    <div class="boot-line" data-delay="900"><span class="tag-ok">[&nbsp;OK&nbsp;]</span> Loading modules... <span class="val">17 repositories</span> found</div>
+    <div class="boot-line" data-delay="1300"><span class="tag-ok">[&nbsp;OK&nbsp;]</span> Parsing commits... <span class="val">930+</span> verified</div>
+    <div class="boot-line" data-delay="1650"><span class="tag-ok">[&nbsp;OK&nbsp;]</span> Indexing codebase... <span class="val">170K+</span> lines</div>
+    <div class="boot-line" data-delay="2000"><span class="tag-ok">[&nbsp;OK&nbsp;]</span> Running tests... <span class="val">860+</span> passing</div>
+    <div class="boot-line" data-delay="2300"><span class="tag-ok">[&nbsp;OK&nbsp;]</span> Mounting /dev/portfolio...</div>
+    <div class="boot-line" data-delay="2700"><span class="tag-ok">[&nbsp;OK&nbsp;]</span> Network interfaces configured</div>
+    <div class="boot-line" data-delay="3100">&nbsp;</div>
+    <div class="boot-line" data-delay="3300"><span class="tag-ready">[READY]</span> <span class="tag-ready">Donald B. Havery — AI Systems Engineer</span></div>
+    <div class="boot-line" data-delay="3600"><span class="tag-ready">[READY]</span> <span class="tag-ready">dbhavery.dev — session active</span></div>
+    <div class="boot-line" data-delay="3900">&nbsp;</div>
+    <div class="boot-line" data-delay="4100"><span style="color:var(--green-dim)">Press any key or wait to continue...</span><span class="cursor"></span></div>
+  </div>
+</div>
+
+<!-- ════════════════════ MAIN CONTENT ════════════════════ -->
+<div id="main-content" class="crt-wrap">
+
+  <!-- ── Navigation ── -->
+  <nav class="nav-bar" aria-label="Primary navigation">
+    <div class="nav-prompt">
+      <span class="nav-user">dbhavery@dev:~$</span>
+      <ul class="nav-links">
+        <li><a href="#hero">whoami</a></li>
+        <li class="nav-sep">|</li>
+        <li><a href="#links">links</a></li>
+        <li class="nav-sep">|</li>
+        <li><a href="#status">status</a></li>
+        <li class="nav-sep">|</li>
+        <li><a href="#projects">projects</a></li>
+        <li class="nav-sep">|</li>
+        <li><a href="#stack">stack</a></li>
+        <li class="nav-sep">|</li>
+        <li><a href="#about">about</a></li>
+      </ul>
+      <span class="cursor" style="margin-left:4px"></span>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero" id="hero">
+    <div class="section-cmd"><span>$</span> dbhavery --whoami</div>
+    <div class="hero-layout">
+      <div class="hero-photo-frame">
+        <img src="img/headshot-dark.webp" alt="Donald B. Havery" class="hero-photo" width="140" height="140" loading="eager">
+      </div>
+      <div class="hero-box">
+        <div class="hero-ascii">┌─────────────────────────────────────────┐</div>
+        <div class="hero-name">DONALD B. HAVERY</div>
+        <div class="hero-title">AI Systems Engineer</div>
+        <div class="hero-sep">│&nbsp; ───────────────────────────────── &nbsp;&nbsp;│</div>
+        <div class="hero-desc">
+          │&nbsp; Building multi-agent orchestration,<br>
+          │&nbsp; real-time voice pipelines, and<br>
+          │&nbsp; production AI infrastructure.
+        </div>
+        <div class="hero-ascii-bottom">└─────────────────────────────────────────┘</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Profile Links ── -->
+  <section id="links">
+    <div class="section-cmd"><span>$</span> dbhavery --links --all</div>
+    <div class="profile-links">
+      <div class="profile-links-header">// Connections &amp; Resources</div>
+      <a href="https://github.com/dbhavery" target="_blank" rel="noopener noreferrer" class="profile-link">
+        <span class="pl-prompt">$</span>
+        <span class="pl-cmd">open</span>
+        <span class="pl-url">https://github.com/dbhavery</span>
+        <span class="pl-tag">[GitHub]</span>
+        <span class="pl-cursor"></span>
+      </a>
+      <a href="https://huggingface.co/dbhavery" target="_blank" rel="noopener noreferrer" class="profile-link">
+        <span class="pl-prompt">$</span>
+        <span class="pl-cmd">open</span>
+        <span class="pl-url">https://huggingface.co/dbhavery</span>
+        <span class="pl-tag">[HuggingFace]</span>
+        <span class="pl-cursor"></span>
+      </a>
+      <a href="https://linkedin.com/in/dbhavery" target="_blank" rel="noopener noreferrer" class="profile-link">
+        <span class="pl-prompt">$</span>
+        <span class="pl-cmd">open</span>
+        <span class="pl-url">https://linkedin.com/in/dbhavery</span>
+        <span class="pl-tag">[LinkedIn]</span>
+        <span class="pl-cursor"></span>
+      </a>
+      <a href="mailto:dbhavery@gmail.com" class="profile-link">
+        <span class="pl-prompt">$</span>
+        <span class="pl-cmd">mail</span>
+        <span class="pl-url">dbhavery@gmail.com</span>
+        <span class="pl-tag">[Email]</span>
+        <span class="pl-cursor"></span>
+      </a>
+      <a href="resume.pdf" target="_blank" class="profile-link">
+        <span class="pl-prompt">$</span>
+        <span class="pl-cmd">download</span>
+        <span class="pl-url">resume.pdf</span>
+        <span class="pl-tag">[Resume]</span>
+        <span class="pl-cursor"></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── System Status ── -->
+  <section id="status">
+    <div class="section-cmd"><span>$</span> dbhavery --status</div>
+    <div class="status-header">SYSTEM STATUS <span style="color:var(--green-dark)">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span></div>
+    <div class="status-grid">
+      <div class="status-row">
+        <span class="status-label">commits:</span>
+        <span class="status-value">930+</span>
+        <span class="status-bar"><span class="filled">████████████████</span></span>
+        <span class="status-state">ACTIVE</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">repositories:</span>
+        <span class="status-value">17</span>
+        <span class="status-bar"><span class="filled">████████</span>░░░░░░░░</span>
+        <span class="status-state">GROWING</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">lines_of_code:</span>
+        <span class="status-value">170K+</span>
+        <span class="status-bar"><span class="filled">████████████████</span></span>
+        <span class="status-state">HEALTHY</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">test_suite:</span>
+        <span class="status-value">860+</span>
+        <span class="status-bar"><span class="filled">████████████████</span></span>
+        <span class="status-state">ALL PASS</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Projects ── -->
+  <section id="projects">
+    <div class="section-cmd"><span>$</span> ps aux --format=extended | grep dbhavery</div>
+
+    <div class="project-list-header">
+      <span class="plh-pid">PID</span>
+      <span class="plh-name">PROCESS / DESCRIPTION</span>
+      <span class="plh-stack">STACK</span>
+      <span class="plh-stat">METRICS</span>
+      <span class="plh-status">STATE</span>
+    </div>
+
+    <!-- Project 1: Citadel -->
+    <div class="project-item" onclick="this.classList.toggle('open')">
+      <div class="project-row">
+        <span class="proj-pid">001</span>
+        <span class="proj-name">
+          <span class="proj-name-main">citadel</span>
+          <span class="proj-name-sub">AI Operations Platform</span>
+        </span>
+        <span class="proj-stack">Python, FastAPI, HNSW, ReAct, Docker</span>
+        <span class="proj-stat">6 pkg | 10K+ ln</span>
+        <span class="proj-status"><span class="proj-status-badge">RUNNING</span></span>
+      </div>
+      <div class="project-expand">▸ click to expand — cat citadel/README.md</div>
+      <div class="project-detail">
+        <div class="proj-detail-cmd">$ cat citadel/README.md</div>
+        <div class="proj-detail-desc">Modular monorepo for production AI infrastructure. Zero-dependency HNSW vector search (eliminates $70+/mo managed DB costs). Multi-provider LLM routing with automatic failover and semantic caching.</div>
+        <div class="proj-detail-stats">packages: <span>6</span> | lines: <span>10K+</span> | tests: <span>100</span></div>
+        <div class="proj-detail-link">$ open <a href="https://github.com/dbhavery/citadel" target="_blank" rel="noopener noreferrer">https://github.com/dbhavery/citadel</a></div>
+      </div>
+    </div>
+
+    <!-- Project 2: Aether -->
+    <div class="project-item" onclick="this.classList.toggle('open')">
+      <div class="project-row">
+        <span class="proj-pid">002</span>
+        <span class="proj-name">
+          <span class="proj-name-main">aether</span>
+          <span class="proj-name-sub">AI Assistant Framework</span>
+        </span>
+        <span class="proj-stack">Python, PySide6, Multi-LLM, ChromaDB</span>
+        <span class="proj-stat">12 mod | 525+ tests</span>
+        <span class="proj-status"><span class="proj-status-badge">RUNNING</span></span>
+      </div>
+      <div class="project-expand">▸ click to expand — cat aether/README.md</div>
+      <div class="project-detail">
+        <div class="proj-detail-cmd">$ cat aether/README.md</div>
+        <div class="proj-detail-desc">Modular AI assistant with 449ms p50 voice latency. 5-tier LLM routing — 70%+ queries handled locally at zero API cost. 12 independent modules including persistent memory, animated avatar, desktop GUI.</div>
+        <div class="proj-detail-stats">modules: <span>12</span> | tests: <span>525+</span> | routing: <span>5-tier LLM</span></div>
+        <div class="proj-detail-link">$ open <a href="https://github.com/dbhavery/aether" target="_blank" rel="noopener noreferrer">https://github.com/dbhavery/aether</a></div>
+      </div>
+    </div>
+
+    <!-- Project 3: Herald -->
+    <div class="project-item" onclick="this.classList.toggle('open')">
+      <div class="project-row">
+        <span class="proj-pid">003</span>
+        <span class="proj-name">
+          <span class="proj-name-main">herald</span>
+          <span class="proj-name-sub">Customer Operations Stack</span>
+        </span>
+        <span class="proj-stack">Python, FastAPI, TF-IDF, Sentiment</span>
+        <span class="proj-stat">49 tests | 24 ep</span>
+        <span class="proj-status"><span class="proj-status-badge">RUNNING</span></span>
+      </div>
+      <div class="project-expand">▸ click to expand — cat herald/README.md</div>
+      <div class="project-detail">
+        <div class="proj-detail-cmd">$ cat herald/README.md</div>
+        <div class="proj-detail-desc">AI-powered customer ops. Reduces support response time from minutes to seconds with citation-backed AI responses. Real-time sentiment scoring, churn prediction, ticket auto-categorization.</div>
+        <div class="proj-detail-stats">tests: <span>49</span> | endpoints: <span>24</span> | tables: <span>8</span></div>
+        <div class="proj-detail-link">$ open <a href="https://github.com/dbhavery/herald" target="_blank" rel="noopener noreferrer">https://github.com/dbhavery/herald</a></div>
+      </div>
+    </div>
+
+    <!-- Project 4: Sentinel -->
+    <div class="project-item" onclick="this.classList.toggle('open')">
+      <div class="project-row">
+        <span class="proj-pid">004</span>
+        <span class="proj-name">
+          <span class="proj-name-main">sentinel</span>
+          <span class="proj-name-sub">Compliance Autopilot</span>
+        </span>
+        <span class="proj-stack">Python, FastAPI, AI Policy Gen</span>
+        <span class="proj-stat">50 tests | 62 req</span>
+        <span class="proj-status"><span class="proj-status-badge">RUNNING</span></span>
+      </div>
+      <div class="project-expand">▸ click to expand — cat sentinel/README.md</div>
+      <div class="project-detail">
+        <div class="proj-detail-cmd">$ cat sentinel/README.md</div>
+        <div class="proj-detail-desc">Automated compliance for SOC 2, GDPR, HIPAA. Gap analysis in seconds vs weeks of manual audit. Document scanning, AI policy generation, drift monitoring, audit-ready reports.</div>
+        <div class="proj-detail-stats">tests: <span>50</span> | requirements: <span>62</span> | templates: <span>14</span></div>
+        <div class="proj-detail-link">$ open <a href="https://github.com/dbhavery/sentinel" target="_blank" rel="noopener noreferrer">https://github.com/dbhavery/sentinel</a></div>
+      </div>
+    </div>
+
+    <!-- Project 5: Vaultwise -->
+    <div class="project-item" onclick="this.classList.toggle('open')">
+      <div class="project-row">
+        <span class="proj-pid">005</span>
+        <span class="proj-name">
+          <span class="proj-name-main">vaultwise</span>
+          <span class="proj-name-sub">Knowledge Management</span>
+        </span>
+        <span class="proj-stack">Python, FastAPI, TF-IDF, Ollama</span>
+        <span class="proj-stat">51 tests | 20 ep</span>
+        <span class="proj-status"><span class="proj-status-badge">RUNNING</span></span>
+      </div>
+      <div class="project-expand">▸ click to expand — cat vaultwise/README.md</div>
+      <div class="project-detail">
+        <div class="proj-detail-cmd">$ cat vaultwise/README.md</div>
+        <div class="proj-detail-desc">TF-IDF search built from scratch — zero ML dependency. Company document ingestion, AI-powered Q&amp;A with source citations, auto-generated training articles and quizzes.</div>
+        <div class="proj-detail-stats">tests: <span>51</span> | endpoints: <span>20</span> | tables: <span>7</span></div>
+        <div class="proj-detail-link">$ open <a href="https://github.com/dbhavery/vaultwise" target="_blank" rel="noopener noreferrer">https://github.com/dbhavery/vaultwise</a></div>
+      </div>
+    </div>
+
+    <!-- Project 6: Dispatch -->
+    <div class="project-item" onclick="this.classList.toggle('open')">
+      <div class="project-row">
+        <span class="proj-pid">006</span>
+        <span class="proj-name">
+          <span class="proj-name-main">dispatch</span>
+          <span class="proj-name-sub">Fleet Management SaaS (StaFull)</span>
+        </span>
+        <span class="proj-stack">React, Node.js, PostgreSQL, Socket.io</span>
+        <span class="proj-stat">225+ commits | 6 portals</span>
+        <span class="proj-status"><span class="proj-status-badge">RUNNING</span></span>
+      </div>
+      <div class="project-expand">▸ click to expand — cat dispatch/README.md</div>
+      <div class="project-detail">
+        <div class="proj-detail-cmd">$ cat dispatch/README.md</div>
+        <div class="proj-detail-desc">Enterprise SaaS — 6 portals, 9 access tiers, real-time fleet tracking. Franchise management, market simulation engine, financial analytics. Deployed on Railway + Vercel.</div>
+        <div class="proj-detail-stats">packages: <span>4</span> | commits: <span>225+</span> | portals: <span>6</span></div>
+        <div class="proj-detail-link">$ open <a href="https://github.com/dbhavery/dispatch" target="_blank" rel="noopener noreferrer">https://github.com/dbhavery/dispatch</a></div>
+      </div>
+    </div>
+
+    <!-- Project 7: Custom Image Generator -->
+    <div class="project-item" onclick="this.classList.toggle('open')">
+      <div class="project-row">
+        <span class="proj-pid">007</span>
+        <span class="proj-name">
+          <span class="proj-name-main">image-gen</span>
+          <span class="proj-name-sub">Custom Image Generator &amp; Editor</span>
+        </span>
+        <span class="proj-stack">Python, PySide6, PyTorch, FLUX, CUDA</span>
+        <span class="proj-stat">127 tests | 3 modes</span>
+        <span class="proj-status"><span class="proj-status-badge">RUNNING</span></span>
+      </div>
+      <div class="project-expand">▸ click to expand — cat image-gen/README.md</div>
+      <div class="project-detail">
+        <div class="proj-detail-cmd">$ cat image-gen/README.md</div>
+        <div class="proj-detail-desc">Local AI image generation — $0 per image vs $0.02-0.10 on cloud APIs. FLUX.1-dev for quality, RealVisXL Lightning for speed. VRAM-aware model management.</div>
+        <div class="proj-detail-stats">tests: <span>127</span> | modes: <span>3 generation</span></div>
+        <div class="proj-detail-link">$ open <a href="https://github.com/dbhavery/Custom-Image-Generator-and-Editor" target="_blank" rel="noopener noreferrer">https://github.com/dbhavery/Custom-Image-Generator-and-Editor</a></div>
+      </div>
+    </div>
+
+    <!-- Project 8: AI Dev Tools -->
+    <div class="project-item" onclick="this.classList.toggle('open')">
+      <div class="project-row">
+        <span class="proj-pid">008</span>
+        <span class="proj-name">
+          <span class="proj-name-main">ai-dev-tools</span>
+          <span class="proj-name-sub">promptlab / ragtest / fineforge / mcplex</span>
+        </span>
+        <span class="proj-stack">Python, PyTorch, MCP, CLI</span>
+        <span class="proj-stat">4 tools | 181 tests</span>
+        <span class="proj-status"><span class="proj-status-badge">RUNNING</span></span>
+      </div>
+      <div class="project-expand">▸ click to expand — cat ai-dev-tools/README.md</div>
+      <div class="project-detail">
+        <div class="proj-detail-cmd">$ cat ai-dev-tools/README.md</div>
+        <div class="proj-detail-desc">Suite of developer tools: fineforge (fine-tune LLMs on consumer GPUs), promptlab (test prompts across providers), ragtest (RAG evaluation), mcplex (MCP server for local AI).</div>
+        <div class="proj-detail-stats">tools: <span>4</span> | tests: <span>181</span></div>
+        <div class="proj-detail-link">$ open <a href="https://github.com/dbhavery?tab=repositories" target="_blank" rel="noopener noreferrer">https://github.com/dbhavery?tab=repositories</a></div>
+      </div>
+    </div>
+
+    <div style="color:var(--green-dark); font-size:11px; margin-top:8px; padding:4px 0;">
+      ── 8 processes listed ── all healthy ──
+    </div>
+  </section>
+
+  <!-- ── Tech Stack ── -->
+  <section id="stack">
+    <div class="section-cmd"><span>$</span> pip list --ai-stack</div>
+    <table class="stack-table">
+      <thead>
+        <tr>
+          <th class="stack-table-head" style="min-width:160px">Package</th>
+          <th class="stack-table-head">Category</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="stack-cat">AI/Orchestration</td>
+          <td class="stack-pkg">Multi-Agent Systems, LLM Gateway/Routing, ReAct Agent Runtime, Claude/Gemini/Ollama, HNSW/TF-IDF/RAG, PyTorch/HuggingFace, MCP</td>
+        </tr>
+        <tr>
+          <td class="stack-cat">Backend</td>
+          <td class="stack-pkg">Python (FastAPI, asyncio), Node.js/Express, WebSocket/REST, PostgreSQL/SQLite</td>
+        </tr>
+        <tr>
+          <td class="stack-cat">Frontend</td>
+          <td class="stack-pkg">React/TypeScript, Next.js, Tailwind CSS, PySide6 Desktop, Vite</td>
+        </tr>
+        <tr>
+          <td class="stack-cat">DevOps</td>
+          <td class="stack-pkg">Docker, GitHub Actions, Vercel/Railway, NVIDIA CUDA</td>
+        </tr>
+        <tr>
+          <td class="stack-cat">Voice/Vision</td>
+          <td class="stack-pkg">Whisper STT, Chatterbox/Kokoro TTS, Silero VAD, LivePortrait</td>
+        </tr>
+        <tr>
+          <td class="stack-cat">Mobile</td>
+          <td class="stack-pkg">Kotlin, Jetpack Compose, WebRTC, Firebase</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="color:var(--green-dark); font-size:11px; margin-top:8px;">── 6 categories | 38 packages installed ──</div>
+  </section>
+
+  <!-- ── About ── -->
+  <section id="about">
+    <div class="section-cmd"><span>$</span> cat about.txt</div>
+    <div class="about-output">
+      I build the layer between AI models and production applications — the routing, orchestration, and reliability infrastructure that makes AI systems work. 30 years and 3.5M+ miles in transportation operations built the systems thinking. 170K+ lines of code across 17 repositories turned it into software.
+    </div>
+
+    <div class="about-certs">
+      <div class="about-certs-header">$ ls certifications/</div>
+      <div class="cert-item"><span class="cert-name">Generative AI with LLMs</span> — <span class="cert-org">DeepLearning.AI (Coursera, 2026)</span></div>
+      <div class="cert-pursuing">
+        // pursuing: AWS ML Engineer Associate, Google Cloud Professional ML Engineer, Databricks GenAI Engineer
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <div class="footer-text">
+      <a href="https://dbhavery.dev">dbhavery.dev</a> — built with plain HTML, CSS, and JS — no frameworks, no dependencies
+    </div>
+    <div class="footer-prompt">
+      dbhavery@dev:~$ <span class="cursor"></span>
+    </div>
+  </footer>
+
+</div><!-- .crt-wrap -->
+
+<script>
+(function() {
+  'use strict';
+
+  // ── Boot Sequence ──
+  var bootScreen = document.getElementById('boot-screen');
+  var mainContent = document.getElementById('main-content');
+  var bootLines = bootScreen.querySelectorAll('.boot-line');
+  var bootDone = false;
+
+  function endBoot() {
+    if (bootDone) return;
+    bootDone = true;
+    // Show all remaining boot lines instantly
+    bootLines.forEach(function(line) {
+      line.classList.add('visible');
+    });
+    // Fade out boot, fade in main
+    setTimeout(function() {
+      bootScreen.classList.add('hidden');
+      mainContent.classList.add('visible');
+    }, 400);
+  }
+
+  // Sequential boot line reveal
+  bootLines.forEach(function(line) {
+    var delay = parseInt(line.getAttribute('data-delay'), 10) || 0;
+    setTimeout(function() {
+      line.classList.add('visible');
+    }, delay);
+  });
+
+  // Auto-finish boot after last line + pause
+  var lastDelay = 0;
+  bootLines.forEach(function(line) {
+    var d = parseInt(line.getAttribute('data-delay'), 10) || 0;
+    if (d > lastDelay) lastDelay = d;
+  });
+  setTimeout(endBoot, lastDelay + 1200);
+
+  // Skip boot on any key or click
+  document.addEventListener('keydown', endBoot, { once: true });
+  bootScreen.addEventListener('click', endBoot, { once: true });
+
+  // ── Intersection Observer for fade-in ──
+  var sections = document.querySelectorAll('#main-content section');
+  sections.forEach(function(sec) {
+    sec.style.opacity = '0';
+    sec.style.transform = 'translateY(8px)';
+    sec.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  });
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  sections.forEach(function(sec) {
+    observer.observe(sec);
+  });
+
+  // ── Smooth scroll for nav links ──
+  document.querySelectorAll('.nav-links a').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var href = this.getAttribute('href');
+      if (href && href.charAt(0) === '#') {
+        e.preventDefault();
+        var target = document.querySelector(href);
+        if (target) {
+          var navHeight = document.querySelector('.nav-bar').offsetHeight;
+          var y = target.getBoundingClientRect().top + window.pageYOffset - navHeight - 16;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }
+    });
+  });
+
+  // ── Keyboard navigation for projects ──
+  document.querySelectorAll('.project-item').forEach(function(item) {
+    item.setAttribute('tabindex', '0');
+    item.setAttribute('role', 'button');
+    item.setAttribute('aria-expanded', 'false');
+    item.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        this.classList.toggle('open');
+        this.setAttribute('aria-expanded', this.classList.contains('open'));
+      }
+    });
+    item.addEventListener('click', function() {
+      this.setAttribute('aria-expanded', this.classList.contains('open'));
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
