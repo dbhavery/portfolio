@@ -93,14 +93,14 @@ Built a complete real-time AI voice assistant from scratch across two generation
 
 ---
 
-### Dispatch — Enterprise SaaS Platform for Mobile Fuel Delivery
-**github.com/dbhavery/dispatch** | 11 repositories | 1,372+ commits | 19K+ LOC | 19K+ lines CSS
+### FuelFleet — Enterprise SaaS Platform for Mobile Fuel Delivery
+**github.com/dbhavery/fuelfleet-platform** | 12 repositories | 1,372+ commits | 19K+ LOC | 19K+ lines CSS
 React 18, TypeScript, Node.js, Express, Prisma, PostgreSQL, Socket.io, Leaflet, Recharts | Deployed on Railway + Vercel
 
 Designed, architected, and built a complete enterprise SaaS platform for a mobile fuel delivery business from concept to cloud deployment — 6 portals, 9 user roles, real-time fleet tracking, AI route optimization, and a 255-input simulation engine. This is not a tutorial project; it is a production-ready startup platform with custom domains, role-based access control, and cloud infrastructure.
 
 **Platform Architecture**
-- Architected **microservices ecosystem** with 11 repositories: 6 independent portals, shared design system, core API engine, simulation engine, and deployment infrastructure — each service independently deployable with shared authentication and design tokens
+- Architected **microservices ecosystem** with 12 repositories: 6 independent portals, shared design system, core API engine, simulation engine, and deployment infrastructure — each service independently deployable with shared authentication and design tokens
 - Built **Core Engine API** (Express.js + Prisma ORM + Neon PostgreSQL) with JWT authentication, bcrypt password hashing, Helmet security headers, rate limiting, file uploads (multer), structured logging (Winston), CORS management, and real-time event streaming (Socket.io)
 - Deployed **full cloud infrastructure** on Railway with custom domain routing, auto-generated SSL certificates, and PostgreSQL via Neon connection pooling
 

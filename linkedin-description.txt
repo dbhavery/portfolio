@@ -15,7 +15,7 @@ Built four connected AI business products: Herald (customer ops — AI chatbot w
 
 Built a local AI image generator and editor (CIGE) — desktop app with FLUX.1-dev and RealVisXL Lightning for txt2img, img2img, and inpainting. $0 per image on consumer GPUs vs $0.02-0.10 on cloud APIs. Custom FLUX inpainting pipeline, VRAM-aware model management, professional neumorphic UI. 127 tests.
 
-Architected Dispatch — enterprise SaaS platform for mobile fuel delivery: 6 role-based portals, 9 access tiers, real-time fleet tracking, AI route optimization, 255-input simulation engine. 11 repositories, deployed on Railway + Vercel.
+Architected FuelFleet — enterprise SaaS platform for mobile fuel delivery: 6 role-based portals, 9 access tiers, real-time fleet tracking, AI route optimization, 255-input simulation engine. 12 repositories, deployed on Railway + Vercel.
 
 Created five pip-installable developer tools: promptlab (parallel multi-provider prompt testing), ragtest (RAG evaluation with precision/recall/NDCG), fineforge (QLoRA fine-tuning on consumer GPUs at $0 cloud cost), mcplex (MCP server bridging local models to any MCP client), coderev (AI code review GitHub App). 196 tests combined.
 

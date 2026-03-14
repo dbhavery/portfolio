@@ -21,7 +21,7 @@ What I've shipped:
 
 -> Citadel: AI operations platform — zero-dependency HNSW vector search, multi-provider LLM routing with failover, semantic caching. 6 packages, 10K+ lines.
 
--> Dispatch: Enterprise SaaS platform — 6 role-based portals, 9 access tiers, real-time fleet tracking, AI route optimization. 11 repositories, deployed on Railway + Vercel.
+-> FuelFleet: Enterprise SaaS platform for mobile fuel delivery — 6 role-based portals, 9 access tiers, real-time fleet tracking, AI route optimization. 12 repositories, deployed on Railway + Vercel.
 
 -> Cortex, Herald, Sentinel, Vaultwise: AI-powered business tools — media cataloging, customer ops, compliance automation, knowledge management. Each production-grade with full test suites.
 
