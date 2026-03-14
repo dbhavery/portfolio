@@ -8,7 +8,7 @@ Remote, US | dbhavery@gmail.com | github.com/dbhavery
 
 ## PROFESSIONAL SUMMARY
 
-AI systems builder and full-stack developer with 37 GitHub repositories, 1,372+ commits, and 888K+ lines of production code across enterprise SaaS, real-time AI voice assistants, multi-agent orchestration platforms, and AI-powered business tools. Designed and shipped Dispatch — an enterprise SaaS platform for mobile fuel delivery with 6 role-based portals, 9 access tiers, real-time fleet tracking, AI route optimization, and cloud deployment across Railway and Neon PostgreSQL. Independently architected Aether — a production AI voice assistant with 7-agent orchestration, 5-model LLM routing, real-time avatar animation, and 728+ automated tests. Built Citadel (AI operations platform), Cortex (autonomous media cataloger), Herald (customer operations), Sentinel (compliance automation), and Vaultwise (knowledge management) — each a production-grade FastAPI application with full test suites. Was building custom AI agents, persistent memory systems, and autonomous development workflows before these became industry features. Brings 30 years and 3.5M+ miles in transportation operations — from CDL training and regional dispatch supervision to line haul freight — the rare combination of enterprise domain expertise and hands-on AI engineering that organizations cannot find in traditional candidates.
+AI systems builder and full-stack developer with 37 GitHub repositories, 1,372+ commits, and 888K+ lines of production code across enterprise SaaS, real-time AI voice assistants, multi-agent orchestration platforms, and AI-powered business tools. Designed and shipped Dispatch — an enterprise SaaS platform for mobile fuel delivery with 6 role-based portals, 9 access tiers, real-time fleet tracking, AI route optimization, and cloud deployment across Railway and Neon PostgreSQL. Independently architected Aether — a production AI voice assistant with 7-agent orchestration, 5-model LLM routing, real-time avatar animation, and 2,000+ automated tests. Built Citadel (AI operations platform), Cortex (autonomous media cataloger), Herald (customer operations), Sentinel (compliance automation), and Vaultwise (knowledge management) — each a production-grade FastAPI application with full test suites. Was building custom AI agents, persistent memory systems, and autonomous development workflows before these became industry features. Brings 30 years and 3.5M+ miles in transportation operations — from CDL training and regional dispatch supervision to line haul freight — the rare combination of enterprise domain expertise and hands-on AI engineering that organizations cannot find in traditional candidates.
 
 ---
 
@@ -49,7 +49,7 @@ Raspberry Pi, Arduino, sensor integration, embedded systems prototyping, hardwar
 ## PROJECTS PORTFOLIO
 
 ### Aether — Production AI Voice Assistant (2 Generations)
-**github.com/dbhavery/aether** | Python | 368+ commits | v1: 152K+ LOC, v2: 9.5K LOC | 728+ automated tests
+**github.com/dbhavery/aether** | Python | 1,372+ commits | v1: 152K+ LOC, v2: 9.5K LOC | 2,000+ automated tests
 
 Built a complete real-time AI voice assistant from scratch across two generations — original architecture, multi-agent orchestration, real-time voice processing, photorealistic avatar animation, and cross-platform deployment to desktop, Android, Telegram, and WebSocket.
 
@@ -57,7 +57,7 @@ Built a complete real-time AI voice assistant from scratch across two generation
 - Designed **OrchestratorAgent + 7 sub-agent architecture** (ConversationNode, GeminiNode, ClaudeNode, ToolNode, AgentNode, VisionNode, MemoryNode) — each agent specialized for its domain, coordinated by a central orchestrator with timing, filler generation, and barge-in detection
 - Built **5-model intelligent LLM routing** with multi-layer intent classification: instant regex match, user override detection, keyword patterns (77 phrases), real-time context, LLM classification fallback (local Qwen, 50-100ms), and automatic tier downgrade on failure — routing across local Qwen (91-380ms), Claude Sonnet/Opus, and Gemini Pro/Flash
 - Implemented **32 core tools and 509 skills** with dynamic Gemini function declarations, fuzzy matching, agentic tool-calling loops (max 5 rounds with result injection), and usage analytics
-- Built v2 clean rewrite in **126 commits over 3 days** — modular EventBus architecture with backpressure, 16 modules (12 core + 4 extensions), typed event system, and security-first design with 2 completed audit waves
+- Built v2 clean rewrite in **1,372+ commits over 3 days** — modular EventBus architecture with backpressure, 16 modules (12 core + 4 extensions), typed event system, and security-first design with 2 completed audit waves
 
 **Real-Time Voice Pipeline**
 - Engineered **449ms p50 latency** (microphone to first audio output): Silero VAD, Faster-Whisper STT (82ms) with ElevenLabs Scribe v2 real-time fallback (30-80ms), intent routing, LLM streaming, sentence-by-sentence TTS synthesis via Chatterbox Turbo voice cloning — competitive with commercial voice assistants
@@ -80,7 +80,7 @@ Built a complete real-time AI voice assistant from scratch across two generation
 **Security & Quality**
 - Built **three-layer security**: command injection blocking (11 regex bypass patterns), PurePosixPath path traversal protection, permission framework, WebSocket token auth (32-byte hex, constant-time verify), PC control allowlists, prompt injection defense ([EXTERNAL_CONTENT] trust boundaries)
 - Managed **GPU coordination** across 7+ models within 24GB VRAM: priority-based loading, lazy initialization, tensor offloading, automatic idle unloading
-- Wrote **728+ automated tests**: unit, integration, performance benchmarking, chaos/failure injection, end-to-end — with pytest, Ruff linting, Pyright type checking, Bandit security scanning, and GitHub Actions CI/CD
+- Wrote **2,000+ automated tests**: unit, integration, performance benchmarking, chaos/failure injection, end-to-end — with pytest, Ruff linting, Pyright type checking, Bandit security scanning, and GitHub Actions CI/CD
 
 ---
 
@@ -94,7 +94,7 @@ Built a complete real-time AI voice assistant from scratch across two generation
 ---
 
 ### Dispatch — Enterprise SaaS Platform for Mobile Fuel Delivery
-**github.com/dbhavery/dispatch** | 11 repositories | 225+ commits | 19K+ LOC | 19K+ lines CSS
+**github.com/dbhavery/dispatch** | 11 repositories | 1,372+ commits | 19K+ LOC | 19K+ lines CSS
 React 18, TypeScript, Node.js, Express, Prisma, PostgreSQL, Socket.io, Leaflet, Recharts | Deployed on Railway + Vercel
 
 Designed, architected, and built a complete enterprise SaaS platform for a mobile fuel delivery business from concept to cloud deployment — 6 portals, 9 user roles, real-time fleet tracking, AI route optimization, and a 255-input simulation engine. This is not a tutorial project; it is a production-ready startup platform with custom domains, role-based access control, and cloud infrastructure.

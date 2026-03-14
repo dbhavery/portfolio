@@ -17,7 +17,7 @@ I build production AI systems from scratch — multi-agent orchestration, real-t
 
 What I've shipped:
 
--> Aether: Production AI voice assistant — 7-agent orchestration, 5-model LLM routing (449ms voice latency), ChromaDB RAG with hybrid search, 728+ automated tests. Deployed across Windows, Android, Telegram, and WebSocket.
+-> Aether: Production AI voice assistant — 7-agent orchestration, 5-model LLM routing (449ms voice latency), ChromaDB RAG with hybrid search, 2,000+ automated tests. Deployed across Windows, Android, Telegram, and WebSocket.
 
 -> Citadel: AI operations platform — zero-dependency HNSW vector search, multi-provider LLM routing with failover, semantic caching. 6 packages, 10K+ lines.
 
@@ -156,4 +156,4 @@ Always end with a question or call to action to drive engagement.
 2. Comment on their posts with substantive takes (not "Great post!")
 3. Connect with recruiters at target companies with personalized notes
 4. Join LinkedIn groups: AI Engineers, LLM Applications, MLOps Community
-5. Share your GitHub stats updates when milestones are hit (every 100 commits, etc.)
+5. Share your GitHub stats updates when milestones are hit (every 1,372+ commits, etc.)

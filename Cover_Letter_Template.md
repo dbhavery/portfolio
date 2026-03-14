@@ -19,7 +19,7 @@ I'm applying for the [Job Title] role at [Company]. I built multi-agent AI orche
 
 **What I bring:**
 
-My portfolio includes production-scale systems that demonstrate the skills this role requires. **Aether** is a production AI voice assistant with 7-agent orchestration, 5-model LLM routing achieving 449ms voice latency, ChromaDB RAG with hybrid search, and 728+ automated tests — deployed across Windows, Android, Telegram, and WebSocket. **Citadel** is an AI operations platform with zero-dependency HNSW vector search and multi-provider LLM routing. **Dispatch** is an enterprise SaaS platform I architected from scratch — 6 role-based portals, 9 access tiers, real-time fleet tracking, and cloud deployment across Railway and Vercel. I also built Herald (customer ops), Sentinel (compliance automation), Vaultwise (knowledge management), Cortex (AI media cataloging), and a suite of AI developer tools — each with full test coverage.
+My portfolio includes production-scale systems that demonstrate the skills this role requires. **Aether** is a production AI voice assistant with 7-agent orchestration, 5-model LLM routing achieving 449ms voice latency, ChromaDB RAG with hybrid search, and 2,000+ automated tests — deployed across Windows, Android, Telegram, and WebSocket. **Citadel** is an AI operations platform with zero-dependency HNSW vector search and multi-provider LLM routing. **Dispatch** is an enterprise SaaS platform I architected from scratch — 6 role-based portals, 9 access tiers, real-time fleet tracking, and cloud deployment across Railway and Vercel. I also built Herald (customer ops), Sentinel (compliance automation), Vaultwise (knowledge management), Cortex (AI media cataloging), and a suite of AI developer tools — each with full test coverage.
 
 <!-- CUSTOMIZE: Pick 2-3 bullets most relevant to this specific job description -->
 
@@ -38,7 +38,7 @@ My portfolio includes production-scale systems that demonstrate the skills this 
 
 **The unconventional path:**
 
-I don't have a CS degree. I have 37 GitHub repositories, 1,372+ commits, and 888,000+ lines of production code that prove I can architect, build, test, and ship real systems. Every concept I studied was immediately applied in working software. I also bring 30 years of operations leadership — managing distributed teams, complex logistics, and time-critical decisions with incomplete information — the same skills that make multi-agent AI systems work.
+I don't have a CS degree. I have 37 GitHub repositories, 1,372+ commits, and 888K+ lines of production code that prove I can architect, build, test, and ship real systems. Every concept I studied was immediately applied in working software. I also bring 30 years of operations leadership — managing distributed teams, complex logistics, and time-critical decisions with incomplete information — the same skills that make multi-agent AI systems work.
 
 I'd welcome the opportunity to discuss how my portfolio maps to your needs. Everything I've built is public on GitHub — I invite you to review it.
 
