@@ -1,0 +1,10 @@
+drafts/
+scripts/
+linkedin-drafts/
+*.bak
+*.wav
+*.mp4
+*.webm
+LINKEDIN_AUDIT_*.md
+linkedin-github-thumbnail.png
+.git
