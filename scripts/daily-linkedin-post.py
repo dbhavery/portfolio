@@ -9,7 +9,7 @@ Usage:
     python daily-linkedin-post.py --review     # research + save draft, post on next run if approved
 
 Scheduled via Windows Task Scheduler to run daily.
-Requires: FIRECRAWL_API_KEY env var, ANTHROPIC_API_KEY env var, playwright-cli installed.
+Requires: FIRECRAWL_API_KEY env var, Ollama running locally, playwright-cli installed.
 """
 
 import subprocess
@@ -44,25 +44,31 @@ def log_post(content: str, status: str):
 
 def firecrawl_search(query: str) -> str:
     """Run firecrawl search and return results."""
-    result = subprocess.run(
-        ["firecrawl", "search", query],
-        capture_output=True, text=True, timeout=60,
-        env={**os.environ}
-    )
-    return result.stdout
-
-
-def generate_post_with_claude(research: str) -> str:
-    """Use Claude API to generate a factual 2-3 sentence post from research."""
+    # Windows requires .cmd extension for npm global binaries in subprocess
+    firecrawl_cmd = "firecrawl.cmd" if sys.platform == "win32" else "firecrawl"
     try:
-        import anthropic
-        client = anthropic.Anthropic()
-        message = client.messages.create(
-            model="claude-sonnet-4-20250514",
-            max_tokens=300,
-            messages=[{
-                "role": "user",
-                "content": f"""Based on this research about the latest AI agentic developments, write a LinkedIn post.
+        result = subprocess.run(
+            [firecrawl_cmd, "search", query],
+            capture_output=True, timeout=60,
+            env={**os.environ}
+        )
+        return result.stdout.decode("utf-8", errors="replace")
+    except FileNotFoundError:
+        # Try full path as fallback
+        full_path = os.path.expanduser("~/AppData/Roaming/npm/firecrawl.cmd")
+        result = subprocess.run(
+            [full_path, "search", query],
+            capture_output=True, timeout=60,
+            env={**os.environ}
+        )
+        return result.stdout.decode("utf-8", errors="replace")
+
+
+def generate_post_with_ollama(research: str) -> str:
+    """Use local Ollama (qwen3:8b) via chat API to generate a factual 2-3 sentence post."""
+    import urllib.request
+
+    user_prompt = f"""Based on this research about the latest AI agentic developments, write a LinkedIn post.
 
 Rules:
 - 2-3 sentences max
@@ -74,11 +80,44 @@ Rules:
 
 Research:
 {research[:3000]}"""
-            }]
+
+    try:
+        payload = json.dumps({
+            "model": "qwen3:8b",
+            "messages": [
+                {"role": "system", "content": "You are a concise LinkedIn post writer for an AI engineer. Write short, factual posts. Output only the post text and hashtags, nothing else."},
+                {"role": "user", "content": user_prompt}
+            ],
+            "stream": False,
+            "options": {"temperature": 0.7, "num_predict": 2048}
+        }).encode("utf-8")
+
+        req = urllib.request.Request(
+            "http://localhost:11434/api/chat",
+            data=payload,
+            headers={"Content-Type": "application/json"}
         )
-        return message.content[0].text.strip()
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            response_text = data.get("message", {}).get("content", "").strip()
+            # qwen3 may include thinking tags — strip them
+            response_text = re.sub(r'<think>.*?</think>', '', response_text, flags=re.DOTALL).strip()
+            return response_text
     except Exception as e:
-        print(f"Claude API error: {e}")
+        print(f"Ollama error: {e}")
+        # Fallback: try Claude API if ANTHROPIC_API_KEY is set
+        if os.environ.get("ANTHROPIC_API_KEY"):
+            try:
+                import anthropic
+                client = anthropic.Anthropic()
+                message = client.messages.create(
+                    model="claude-sonnet-4-20250514",
+                    max_tokens=300,
+                    messages=[{"role": "user", "content": user_prompt}]
+                )
+                return message.content[0].text.strip()
+            except Exception as e2:
+                print(f"Claude fallback error: {e2}")
         return ""
 
 
@@ -214,8 +253,24 @@ def main():
         log_post("", "no_research")
         return
 
-    print("Generating post with Claude...")
-    post_content = generate_post_with_claude(all_research)
+    # Condense research to key findings (Ollama struggles with long raw input)
+    lines = all_research.split("\n")
+    findings = []
+    for line in lines:
+        line = line.strip()
+        # Keep title lines and short description lines
+        if line and not line.startswith("URL:") and not line.startswith("http") and len(line) > 20 and len(line) < 300:
+            findings.append(line)
+    condensed = "\n".join(findings[:15])[:1500]  # Keep under 1500 chars for Ollama
+
+    if not condensed.strip():
+        print("No usable findings after filtering. Skipping.")
+        log_post("", "no_findings")
+        return
+
+    print(f"Condensed research to {len(condensed)} chars from {len(all_research)} chars")
+    print("Generating post with Ollama (qwen3:8b)...")
+    post_content = generate_post_with_ollama(condensed)
 
     if not post_content:
         print("Failed to generate post. Skipping.")
