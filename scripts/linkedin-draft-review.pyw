@@ -75,12 +75,13 @@ class DraftReviewApp:
         self.root.configure(bg="#1a1a1a")
         self.root.attributes("-topmost", True)
 
-        # Center on screen
-        w, h = 650, 520
+        # Center on screen — tall enough for buttons
+        w, h = 700, 650
         x = (self.root.winfo_screenwidth() - w) // 2
         y = (self.root.winfo_screenheight() - h) // 2
         self.root.geometry(f"{w}x{h}+{x}+{y}")
-        self.root.resizable(False, False)
+        self.root.resizable(True, True)
+        self.root.minsize(600, 550)
 
         # Header
         header = tk.Label(
@@ -95,6 +96,22 @@ class DraftReviewApp:
         )
         date_label.pack(pady=(0, 10))
 
+        # --- Pack bottom elements FIRST so they're always visible ---
+
+        # Buttons (pack first = always at bottom)
+        btn_frame = tk.Frame(self.root, bg="#1a1a1a")
+        btn_frame.pack(side="bottom", fill="x", pady=(10, 15))
+
+        # Character count (above buttons)
+        self.char_var = tk.StringVar(value="0 chars")
+        char_label = tk.Label(
+            self.root, textvariable=self.char_var,
+            font=("Segoe UI", 9), fg="#666", bg="#1a1a1a"
+        )
+        char_label.pack(side="bottom", pady=(0, 2))
+
+        # --- Now pack expanding elements ---
+
         # Status
         self.status_var = tk.StringVar(value="Loading draft...")
         self.status_label = tk.Label(
@@ -103,7 +120,7 @@ class DraftReviewApp:
         )
         self.status_label.pack()
 
-        # Text area
+        # Text area (fills remaining space)
         text_frame = tk.Frame(self.root, bg="#2a2a2a", padx=2, pady=2)
         text_frame.pack(padx=20, pady=10, fill="both", expand=True)
 
@@ -114,20 +131,8 @@ class DraftReviewApp:
             selectbackground="#3a5a8a"
         )
         self.text.pack(fill="both", expand=True)
-
-        # Character count
-        self.char_var = tk.StringVar(value="0 chars")
-        char_label = tk.Label(
-            self.root, textvariable=self.char_var,
-            font=("Segoe UI", 9), fg="#666", bg="#1a1a1a"
-        )
-        char_label.pack(pady=(0, 5))
         self.text.bind("<<Modified>>", self._update_char_count)
         self.text.bind("<KeyRelease>", lambda e: self._update_char_count())
-
-        # Buttons
-        btn_frame = tk.Frame(self.root, bg="#1a1a1a")
-        btn_frame.pack(pady=(0, 15))
 
         self.approve_btn = tk.Button(
             btn_frame, text="Approve & Post", font=("Segoe UI", 11, "bold"),

@@ -83,7 +83,7 @@ Research:
 
     try:
         payload = json.dumps({
-            "model": "qwen3:8b",
+            "model": "qwen3:30b",
             "messages": [
                 {"role": "system", "content": "You are a concise LinkedIn post writer for an AI engineer. Write short, factual posts. Output only the post text and hashtags, nothing else."},
                 {"role": "user", "content": user_prompt}
