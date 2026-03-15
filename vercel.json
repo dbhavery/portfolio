@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/fit-check.js": {
+      "maxDuration": 30
+    },
+    "api/github-stats.js": {
+      "maxDuration": 15
+    }
+  }
+}

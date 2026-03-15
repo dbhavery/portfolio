@@ -425,7 +425,7 @@ body::before {
   transform: translate(-50%, -50%);
   border-radius: 50%;
   z-index: 3;
-  background: radial-gradient(circle at 50% 40%, #666 0%, #333 50%, #0e0e0e 100%);
+  background: radial-gradient(circle at 50% 40%, #d0d0d0 0%, #999 40%, #555 75%, #2a2a2a 100%);
   overflow: hidden;
   /* Recessed depth — shadow from bevel rim falling inward */
   box-shadow:
@@ -433,15 +433,23 @@ body::before {
     inset 0 2px 4px rgba(0,0,0,0.5),
     inset 0 -3px 8px rgba(255,255,255,0.03);
 }
-.hero-headshot {
+/* Idle + answer videos — multiply blend removes white bg */
+.hero-photo-inner .avatar-idle,
+.hero-photo-inner .avatar-answer {
   position: absolute;
-  bottom: -10px;
-  left: calc(50% + 18px);
-  transform: translateX(-50%);
-  width: 200%;
-  height: auto;
-  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: calc(50% + 18px) calc(50% + 10px);
+  mix-blend-mode: multiply;
+  transition: opacity 0.3s;
 }
+.hero-photo-inner .avatar-idle { z-index: 2; }
+.hero-photo-inner .avatar-answer { z-index: 3; opacity: 0; }
+.hero-photo-inner.playing .avatar-idle { opacity: 0; }
+.hero-photo-inner.playing .avatar-answer { opacity: 1; }
 .hero-photo {
   width: 310px;
   height: 310px;
@@ -1554,7 +1562,7 @@ footer .blink-cursor {
   <div class="boot-line"><span class="ok">[ok]</span> Indexing repositories... <span class="info" data-metric="repos" data-metric-format="$v found">37 found</span></div>
   <div class="boot-line"><span class="ok">[ok]</span> Scanning commits... <span class="info" data-metric="commits" data-metric-format="$v+ verified">1372+ verified</span></div>
   <div class="boot-line"><span class="ok">[ok]</span> Compiling projects... <span class="info" data-metric="loc" data-metric-format="$vK+ lines">888K+ lines</span></div>
-  <div class="boot-line"><span class="ok">[ok]</span> Validating test coverage... <span class="info" data-metric="tests" data-metric-format="$v+ passing">728+ passing</span></div>
+  <div class="boot-line"><span class="ok">[ok]</span> Validating test coverage... <span class="info" data-metric="tests" data-metric-format="$v+ passing">2,066+ passing</span></div>
   <div class="boot-line"><span class="ok">[ok]</span> Connecting AI stack — <span data-metric="models" data-metric-format="$v models online">5 models online</span></div>
   <div class="boot-line"><span class="ok">[ok]</span> Agent framework ready — <span data-metric="subAgents" data-metric-format="$v sub-agents">7 sub-agents</span></div>
   <div class="boot-line"><span class="ok">[ok]</span> All systems green</div>
@@ -1629,8 +1637,9 @@ footer .blink-cursor {
         </div>
 
         <div class="hero-photo-wrap">
-          <div class="hero-photo-inner">
-            <img src="img/headshot-suit-transparent.png" alt="Don Havery" class="hero-headshot">
+          <div class="hero-photo-inner" id="avatarWrap">
+            <video class="avatar-idle" id="avatarIdle" src="assets/interview/idle.webm" poster="img/headshot-suit.png" autoplay loop muted playsinline></video>
+            <video class="avatar-answer" id="avatarVideo" preload="none" playsinline></video>
           </div>
         </div>
       </div>
@@ -1672,7 +1681,7 @@ footer .blink-cursor {
                   <path class="vol-wave-2" d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
                 </svg>
               </button>
-              <input type="range" class="avatar-volume-slider" id="avatarVolumeSlider" min="0" max="1" step="0.01" value="1" aria-label="Volume">
+              <input type="range" class="avatar-volume-slider" id="avatarVolumeSlider" min="0" max="1" step="0.01" value="0.4" aria-label="Volume">
             </div>
           </div>
           <div class="avatar-sidebar">
@@ -1692,7 +1701,7 @@ footer .blink-cursor {
               <button class="avatar-q" data-video="assets/interview/q5.webm" data-render-time="5.6s" data-transcript="Oh man, real-time voice. Hands down. Getting the full round-trip latency — from when you stop talking to when the assistant starts responding — under five hundred milliseconds... it was a grind. You've got speech detection, transcription, the language model thinking, then generating the voice response — all while doing echo cancellation so it doesn't hear itself. And all of this is running on a single GPU with seven-plus models loaded at once. One model uses too much memory and the whole thing falls over. But the goal was to make it feel like a real conversation, not like talking to a robot. And I think we got there.">
                 What was your hardest technical challenge?
               </button>
-              <button class="avatar-q" data-video="assets/interview/q6.webm" data-render-time="3.7s" data-transcript="I'm kind of obsessive about it, honestly. Over seven hundred tests — unit, integration, end-to-end, even chaos testing where I break things on purpose. Every module has its own test suite. When I fix a bug, the first thing I do is write a test that reproduces it. Then I fix it, then I make sure the test passes. GitHub Actions runs everything automatically on every push. My philosophy is basically — if it doesn't have tests, it doesn't work. You just don't know it's broken yet.">
+              <button class="avatar-q" data-video="assets/interview/q6.webm" data-render-time="3.7s" data-transcript="I'm kind of obsessive about it, honestly. Over two thousand tests — unit, integration, end-to-end, even chaos testing where I break things on purpose. Every module has its own test suite. When I fix a bug, the first thing I do is write a test that reproduces it. Then I fix it, then I make sure the test passes. GitHub Actions runs everything automatically on every push. My philosophy is basically — if it doesn't have tests, it doesn't work. You just don't know it's broken yet.">
                 How do you approach testing?
               </button>
               <button class="avatar-q" data-video="assets/interview/q7.webm" data-render-time="4.4s" data-transcript="So when the assistant needs to look something up, it uses two search methods at the same time — one for exact keyword matches and one that understands meaning. Both run in parallel, and the results get merged and ranked. On top of that, there's a knowledge base with over five hundred skills it can draw from. And then memory is layered — recent stuff stays in the current session, older context goes into a database, and long-term knowledge lives in a dedicated search engine. So the assistant genuinely remembers things across conversations. It's not just search — it's actual memory.">
@@ -1713,7 +1722,7 @@ footer .blink-cursor {
               <button class="avatar-q" data-video="assets/interview/q12.webm" data-render-time="6.1s" data-transcript="First thirty days, I'm listening and reading. Understanding the existing systems, the pain points, the technical debt — not proposing big changes yet. I'd pick up a few quick wins to build trust and learn the codebase through real work. Days thirty to sixty, I'd start identifying where AI can have the biggest impact — maybe it's a pipeline that's too slow, maybe it's a manual process that could be automated, maybe there's no visibility into what's failing. By day ninety, I'd want to have shipped at least one meaningful improvement and have a concrete proposal for a bigger initiative. I'm not the guy who spends three months making slides. I ship.">
                 What would you build in your first 90 days?
               </button>
-              <button class="avatar-q" data-video="assets/interview/q13.webm" data-render-time="5.3s" data-transcript="Honestly? Hire me because of it, not despite it. Thirty years of managing complex operations — distributed teams, time-critical logistics, decisions with incomplete data — that's exactly the kind of systems thinking that makes good AI infrastructure. CS graduates understand algorithms. I understand what happens when your system breaks at two in the morning and there's real money on the line. Plus, I've proven I can learn. Almost a million lines of production code, over seven hundred tests, multi-agent systems, voice pipelines — all built in under two years. I don't just know the theory, I've built the systems. And I bring a perspective that most engineers don't have.">
+              <button class="avatar-q" data-video="assets/interview/q13.webm" data-render-time="5.3s" data-transcript="Honestly? Hire me because of it, not despite it. Thirty years of managing complex operations — distributed teams, time-critical logistics, decisions with incomplete data — that's exactly the kind of systems thinking that makes good AI infrastructure. CS graduates understand algorithms. I understand what happens when your system breaks at two in the morning and there's real money on the line. Plus, I've proven I can learn. Almost a million lines of production code, over two thousand tests, multi-agent systems, voice pipelines — all built in under two years. I don't just know the theory, I've built the systems. And I bring a perspective that most engineers don't have.">
                 Why you over a traditional CS background?
               </button>
             </div>
@@ -1724,7 +1733,7 @@ footer .blink-cursor {
   </section>
 
   <!-- STATS — Mission Control -->
-  <section id="status">
+  <section id="status" style="padding-bottom: 16px;">
     <div class="container">
       <div class="section-header reveal">
         <div class="section-cmd">dbhavery --status &lt;live&gt;</div>
@@ -1752,7 +1761,7 @@ footer .blink-cursor {
         </div>
         <div class="stat-card reveal">
           <div class="stat-label"><span class="dot"></span> test_suite</div>
-          <div class="stat-value" data-target="728" data-suffix="+" data-metric="tests">0</div>
+          <div class="stat-value" data-target="2066" data-suffix="+" data-metric="tests">0</div>
           <div class="stat-bar"><div class="stat-bar-fill" data-width="95%"></div></div>
           <div class="stat-status">ALL PASS</div>
         </div>
@@ -1761,10 +1770,10 @@ footer .blink-cursor {
   </section>
 
   <!-- PROJECTS — placeholder for rebuild -->
-  <section id="projects"></section>
+  <section id="projects" style="padding:0;margin:0"></section>
 
   <!-- TECH STACK — placeholder for rebuild -->
-  <section id="stack"></section>
+  <section id="stack" style="padding:0;margin:0"></section>
 
   <!-- ABOUT -->
   <section id="about">
@@ -1865,7 +1874,7 @@ const PortfolioMetrics = (function() {
     loc:      { value: 888,  source: 'github' },
 
     // Manual — architecture constants
-    tests: 728, models: 5, subAgents: 7,
+    tests: 2066, models: 5, subAgents: 7,
     voiceLatency: 449, aetherModules: 12,
     aetherTests: 728, skills: 509, tools: 32,
     citadelPackages: 6, citadelLOC: '10K+', citadelCoverage: 100,
@@ -1948,14 +1957,13 @@ const PortfolioMetrics = (function() {
 
   // Fetch from proxy
   async function fetchLive() {
-    // Skip fetch on file:// protocol
-    if (location.protocol === 'file:') return;
+    const apiBase = location.protocol === 'file:' ? 'https://dbhavery.dev' : '';
     const cached = loadCache();
     if (cached) { merge(cached); updateDOM(); return; }
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 5000);
-      const res = await fetch('/api/github-stats', { signal: controller.signal });
+      const res = await fetch(apiBase + '/api/github-stats', { signal: controller.signal });
       clearTimeout(timeout);
       if (!res.ok) return;
       const data = await res.json();
@@ -2271,25 +2279,38 @@ function _buildGenLog(stem, renderTimeStr) {
   let resetTimer = null;
   btn.addEventListener('click', function() {
     const email = 'dbhavery@gmail.com';
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(email).then(function() {
-        showCopied();
-      }).catch(function() {
-        fallback(email);
-      });
+    // Try clipboard API (requires HTTPS)
+    if (navigator.clipboard && navigator.clipboard.writeText && location.protocol === 'https:') {
+      navigator.clipboard.writeText(email).then(showCopied).catch(function() { fallbackCopy(email); });
     } else {
-      fallback(email);
+      fallbackCopy(email);
     }
   });
   function showCopied() {
+    tooltip.textContent = 'dbhavery@gmail.com \u00b7 Copied!';
     tooltip.classList.add('show');
     clearTimeout(resetTimer);
-    resetTimer = setTimeout(function() {
-      tooltip.classList.remove('show');
-    }, 2000);
+    resetTimer = setTimeout(function() { tooltip.classList.remove('show'); }, 2500);
   }
-  function fallback(email) {
-    window.location.href = 'mailto:' + email;
+  function fallbackCopy(email) {
+    // execCommand fallback works on file:// and HTTP
+    const ta = document.createElement('textarea');
+    ta.value = email;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      showCopied();
+    } catch (e) {
+      // Last resort: open mailto
+      tooltip.textContent = 'dbhavery@gmail.com';
+      tooltip.classList.add('show');
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(function() { tooltip.classList.remove('show'); }, 3000);
+    }
+    document.body.removeChild(ta);
   }
 })();
 
@@ -2299,31 +2320,38 @@ function _buildGenLog(stem, renderTimeStr) {
    ═══════════════════════════════════════════════════════════ */
 (function() {
   const m = PortfolioMetrics.get;
-  const CANDIDATE_CONTEXT = `Donald B. Havery — AI Systems Engineer
+  const CANDIDATE_CONTEXT = `Donald B. Havery — AI Systems Engineer & Independent AI Contractor
 Portfolio: dbhavery.dev | GitHub: github.com/dbhavery | HuggingFace: huggingface.co/dbhavery
 
 WHAT HE BUILT:
-- StaFull: Enterprise SaaS platform — ${m('dispatchPortals')} role-based portals, ${m('dispatchTiers')} access tiers, real-time fleet tracking, AI route optimization. 11 repos, React 18, TypeScript, Node.js, Express, PostgreSQL, Prisma, WebSocket, deployed on Railway + Vercel.
-- Isabelle: Production AI voice assistant — ${m('subAgents')}-agent orchestration (OrchestratorAgent + ConversationNode, GeminiNode, ClaudeNode, ToolNode, AgentNode, VisionNode, MemoryNode), ${m('models')}-model intelligent LLM routing (${m('voiceLatency')}ms p50 voice latency), ChromaDB RAG with hybrid BM25 + dense vector search, ${m('tests')}+ automated tests, ${m('tools')} core tools, ${m('skills')} skills. Deployed across Windows desktop (PySide6), Android (Kotlin/Jetpack Compose), Telegram, and WebSocket.
+- CLAUDIUS: Custom AI orchestration system — 130+ API commands, multi-agent frameworks, tool-use pipelines, MCP server integration. Claude Code power user building AI tools that orchestrate other tools.
+- Real-Time AI Avatar Pipeline: End-to-end STT→LLM→TTS→avatar system on a single RTX 3090 Ti, <40ms latency. FlashHead lip-sync, Chatterbox voice cloning, WebSocket streaming.
+- Isabelle: Production AI voice assistant — ${m('subAgents')}-agent orchestration, ${m('models')}-model intelligent LLM routing (${m('voiceLatency')}ms p50 voice latency), ChromaDB RAG with hybrid BM25 + dense vector search, ${m('tests')}+ automated tests across all projects, ${m('tools')} core tools, ${m('skills')} skills. Deployed across desktop (PySide6), Android (Kotlin/Jetpack Compose), Telegram, and WebSocket.
+- StāFull: Full-stack SaaS platform — ${m('dispatchPortals')} role-based portals, ${m('dispatchTiers')} access tiers, React 18, TypeScript, Node.js, PostgreSQL, Prisma, WebSocket.
 - ${m('repos')} GitHub repositories, ${m('commits')}+ commits, ${m('loc')}K+ lines of production code.
-- Citadel: AI operations platform — modular monorepo, zero-dependency HNSW vector search, multi-provider LLM routing with failover.
-- Multiple HuggingFace Spaces with live demos.
+- 40+ local LLMs managed, ONNX/TensorRT inference optimization, published models on HuggingFace (fineforge-qlora-pipeline).
+- Citadel: AI operations platform — zero-dependency HNSW vector search, multi-provider LLM routing with failover.
 
 TECHNICAL SKILLS:
-- AI/ML: Multi-agent orchestration, LLM function calling & tool use, RAG (BM25 + dense vector), prompt engineering, QLoRA fine-tuning, PyTorch, ONNX Runtime, ChromaDB, LangGraph, HuggingFace Transformers, MCP servers
-- Voice/Vision: Faster-Whisper STT (82ms), ElevenLabs, Kokoro TTS, Chatterbox voice cloning, Audio2Face-3D ONNX, InsightFace, LivePortrait, FLUX.1-dev DreamBooth LoRA
+- Agentic AI: Multi-agent orchestration, MCP servers, Claude Code, custom agent frameworks, LLM function calling & tool use, 130+ automated API commands
+- AI/ML: RAG (BM25 + dense vector), prompt engineering, QLoRA fine-tuning, PyTorch, ONNX Runtime, TensorRT, ChromaDB, HuggingFace Transformers, 40+ model management
+- Voice/Vision: Faster-Whisper STT (82ms), Chatterbox voice cloning, FlashHead avatar, Audio2Face-3D ONNX, InsightFace, FLUX.1-dev DreamBooth LoRA
 - Full-Stack: React 18, TypeScript, Node.js, Express, Python (asyncio, FastAPI), PostgreSQL, Prisma ORM, WebSocket, REST APIs
 - Cloud/MLOps: Vercel, Railway, Docker, GitHub Actions CI/CD, Neon PostgreSQL, Firebase
 - Mobile/Desktop: Kotlin (Jetpack Compose), PySide6 (Qt6), WebRTC, biometric auth
-- Hardware: RTX 3090 Ti 24GB VRAM, GPU coordination across 7+ models
+- Hardware: RTX 3090 Ti 24GB VRAM, GPU pipeline coordination across 7+ concurrent models
 
 BACKGROUND:
-- No CS degree. Self-taught. 1,000+ hours self-directed AI/ML curriculum applied across ${m('repos')} repositories.
-- ${m('experience')} years transportation operations (supervisor, dispatcher, driver trainer, operator, ${m('miles')}+ career miles). This gave him distributed systems thinking, time-critical decision-making, and fault-tolerance instincts.
-- Currently at Old Dominion Freight Lines (line driver) while building AI portfolio.
-- Certifications: DeepLearning.AI Generative AI with LLMs (Coursera). Pursuing: AWS ML Engineer Associate, Google Cloud Professional ML Engineer, Databricks GenAI Engineer.
+- BS in Computer Science in progress (Sophia.org gen-ed → Capella FlexPath, HLC-accredited). Equivalent professional experience: 30+ years applied technical leadership, 1,000+ hours AI specialization across ${m('repos')} repositories.
+- ${m('experience')} years transportation operations (supervisor, dispatcher, driver trainer, operator, ${m('miles')}+ career miles). Distributed systems thinking, time-critical decision-making, fault-tolerance instincts.
+- Earned: DeepLearning.AI Generative AI with LLMs (AWS+DLAI), HuggingFace course completions.
+- In progress: AWS AI Practitioner (AIF-C01, Q2 2026), Deep Learning Specialization, NVIDIA DLI courses.
+- Planned: AWS ML Engineer Associate, Azure AI-102, Google Cloud ML Engineer, Capella FlexPath BSCS completion.
+- Every project built end-to-end solo: model → API → UI → mobile. Full vertical ownership.
 
-SEEKING: AI Engineer, LLM Applications Engineer, Agentic AI Engineer, ML Engineer, AI Systems Engineer, Full-Stack AI Developer roles. Remote preferred.`;
+SEEKING: Steady paid project work — contract, freelance, or staff roles. Creative AI systems, not boring enterprise tooling. Open to: Senior/Staff AI Engineer at a product company, independent AI systems contractor, project-based platform work (Toptal/Arc.dev). Remote preferred.
+
+IMPORTANT: Be honest. Mention no CS degree (in progress). Mention non-traditional background. Don't oversell. Reference specific projects by name.`;
 
   let state = 'initial'; // initial, questions, loading, done
   let jobDescription = '';
@@ -2348,24 +2376,29 @@ SEEKING: AI Engineer, LLM Applications Engineer, Agentic AI Engineer, ML Enginee
     if (state === 'initial') {
       const textarea = document.getElementById('fitTextarea');
       const text = textarea.value.trim();
-      if (!text || text.length < 30) return;
+      if (!text || text.length < 20) {
+        addMsg('Please paste a full job description (at least a few sentences).', 'system');
+        return;
+      }
       jobDescription = text;
       // Show truncated JD as user message
       const preview = text.length > 200 ? text.substring(0, 200) + '...' : text;
       addMsg(preview, 'user');
-      addMsg('Got it. Two quick questions to sharpen the analysis:', 'system');
+      addMsg('Got it. Two optional questions to sharpen the analysis:', 'system');
       state = 'questions';
       setInput(`
-        <label style="color: var(--text-muted); font-size: 11px; letter-spacing: 1px;">TEAM SIZE & STAGE</label>
+        <label style="color: var(--text-muted); font-size: 11px; letter-spacing: 1px;">TEAM SIZE & STAGE <span style="opacity:0.5">(optional)</span></label>
         <input class="fit-input" id="fitQ1" placeholder="e.g. startup (5 people), growth-stage, enterprise...">
-        <label style="color: var(--text-muted); font-size: 11px; letter-spacing: 1px; margin-top: 6px;">WHAT MATTERS MOST FOR THIS HIRE?</label>
+        <label style="color: var(--text-muted); font-size: 11px; letter-spacing: 1px; margin-top: 6px;">WHAT MATTERS MOST FOR THIS HIRE? <span style="opacity:0.5">(optional)</span></label>
         <input class="fit-input" id="fitQ2" placeholder="e.g. ship fast, deep ML knowledge, team lead experience...">
-        <button class="fit-submit" onclick="fitSubmit()">Run Analysis</button>
+        <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:8px;">
+          <button class="fit-submit" style="background:transparent; border-color:rgba(255,255,255,0.1); color:var(--text-muted);" onclick="fitSubmit()">Skip &rarr;</button>
+          <button class="fit-submit" onclick="fitSubmit()">Run Analysis</button>
+        </div>
       `);
     } else if (state === 'questions') {
-      const q1 = document.getElementById('fitQ1').value.trim();
-      const q2 = document.getElementById('fitQ2').value.trim();
-      if (!q1 && !q2) return;
+      const q1 = (document.getElementById('fitQ1') || {}).value?.trim() || '';
+      const q2 = (document.getElementById('fitQ2') || {}).value?.trim() || '';
       answers = { teamStage: q1 || 'not specified', priority: q2 || 'not specified' };
       if (q1) addMsg('Team: ' + q1, 'user');
       if (q2) addMsg('Priority: ' + q2, 'user');
@@ -2402,12 +2435,28 @@ VERDICT: [One sentence honest overall assessment]
 Be specific. Reference actual projects and skills from the profile. Be honest about gaps — mention no CS degree if relevant, lack of enterprise team experience if relevant. Don't oversell.`;
 
     try {
-      // Try Isabelle live bridge first (Gemini via local server)
-      const data = await IsabelleBridge.fitCheck(prompt);
+      // Try Vercel API route (Groq Llama 3.3 70B)
+      const apiBase = location.protocol === 'file:' ? 'https://dbhavery.dev' : '';
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 30000);
+      const resp = await fetch(apiBase + '/api/fit-check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
+        signal: ctrl.signal,
+      });
+      clearTimeout(t);
+      if (!resp.ok) throw new Error('API error');
+      const data = await resp.json();
       showResult(data.response);
     } catch (_) {
-      // Fallback: generate a structured local response
-      showFallback();
+      // Fallback: try Isabelle bridge, then local keyword analysis
+      try {
+        const data = await IsabelleBridge.fitCheck(prompt);
+        showResult(data.response);
+      } catch (__) {
+        showFallback();
+      }
     }
   }
 
@@ -2586,7 +2635,8 @@ Be specific. Reference actual projects and skills from the profile. Be honest ab
   // Volume controls
   const muteBtn = document.getElementById('avatarMuteBtn');
   const volumeSlider = document.getElementById('avatarVolumeSlider');
-  let savedVolume = 1;
+  let savedVolume = 0.4;
+  video.volume = 0.4;
 
   function updateMuteIcon() {
     const vol = video.muted ? 0 : video.volume;

@@ -64,8 +64,21 @@ def build_alpha_mask(size=512):
     # Resize to target size
     mask = cv2.resize(cropped, (size, size), interpolation=cv2.INTER_AREA)
 
-    # Soften edges slightly for clean compositing
-    mask = cv2.GaussianBlur(mask, (3, 3), 0)
+    # Heavy erosion — FlashHead face shifts frame-to-frame, mask must be
+    # well inside the boundary.
+    # Step 1: Kill any semi-transparent pixels
+    mask[mask < 200] = 0
+    # Step 2: Erode uniformly
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (11, 11))
+    mask = cv2.erode(mask, kernel, iterations=3)
+    # Step 3: Extra erosion on top 40% (hair crown has worst fringe)
+    top_rows = int(size * 0.4)
+    top_kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (13, 13))
+    top_section = mask[:top_rows, :]
+    top_section = cv2.erode(top_section, top_kernel, iterations=2)
+    mask[:top_rows, :] = top_section
+    # Step 4: Smooth the edge
+    mask = cv2.GaussianBlur(mask, (9, 9), 0)
 
     print(f"[mask] Cropped alpha {cropped.shape} -> {size}x{size}")
     print(f"[mask] Transparent: {(mask == 0).sum()}, Opaque: {(mask == 255).sum()}")

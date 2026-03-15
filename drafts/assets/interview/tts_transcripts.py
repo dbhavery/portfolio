@@ -7,7 +7,7 @@ use proper spelling for human readability.
 Reference voice: I:/IsabelleData/media/audio/2025/12/2025_12_24_11_36_25_1.mp3
 
 Rewritten 2026-03-13: reduced jargon, fixed template vars, fixed cut-offs,
-hardcoded stats (37 repos, 1372 commits, 888K lines, 728 tests).
+hardcoded stats (37 repos, 1372 commits, 888K lines, 2066 tests across all projects).
 """
 
 TTS_TRANSCRIPTS = {
@@ -58,7 +58,7 @@ TTS_TRANSCRIPTS = {
         "feel like a real conversation, not like talking to a robot. And I think we got there."
     ),
     "q6": (
-        "I'm kind of obsessive about it, honestly. Over seven hundred tests — unit, "
+        "I'm kind of obsessive about it, honestly. Over two thousand tests — unit, "
         "integration, end-to-end, even chaos testing where I break things on purpose. "
         "Every module has its own test suite. When I fix a bug, the first thing I do is "
         "write a test that reproduces it. Then I fix it, then I make sure the test passes. "
@@ -128,7 +128,7 @@ TTS_TRANSCRIPTS = {
         "that's exactly the kind of systems thinking that makes good A.I. infrastructure. "
         "C.S. graduates understand algorithms. I understand what happens when your system breaks "
         "at two in the morning and there's real money on the line. Plus, I've proven I can learn. "
-        "Almost a million lines of production code, over seven hundred tests, "
+        "Almost a million lines of production code, over two thousand tests, "
         "multi-agent systems, voice pipelines — all built in under two years. "
         "I don't just know the theory, I've built the systems. And I bring a perspective "
         "that most engineers don't have."

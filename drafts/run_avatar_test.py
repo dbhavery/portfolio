@@ -62,7 +62,7 @@ TRANSCRIPTS = {
     },
     "q6": {
         "question": "How do you approach testing?",
-        "expected": "I'm kind of obsessive about it, honestly. Over seven hundred tests — unit, integration, end-to-end, even chaos testing where I break things on purpose. Every module has its own test suite. When I fix a bug, the first thing I do is write a test that reproduces it. Then I fix it, then I make sure the test passes. GitHub Actions runs everything automatically on every push. My philosophy is basically — if it doesn't have tests, it doesn't work. You just don't know it's broken yet.",
+        "expected": "I'm kind of obsessive about it, honestly. Over two thousand tests — unit, integration, end-to-end, even chaos testing where I break things on purpose. Every module has its own test suite. When I fix a bug, the first thing I do is write a test that reproduces it. Then I fix it, then I make sure the test passes. GitHub Actions runs everything automatically on every push. My philosophy is basically — if it doesn't have tests, it doesn't work. You just don't know it's broken yet.",
     },
     "q7": {
         "question": "How does your RAG system work?",
@@ -90,7 +90,7 @@ TRANSCRIPTS = {
     },
     "q13": {
         "question": "Why you over a traditional CS background?",
-        "expected": "Honestly? Hire me because of it, not despite it. Thirty years of managing complex operations — distributed teams, time-critical logistics, decisions with incomplete data — that's exactly the kind of systems thinking that makes good AI infrastructure. CS graduates understand algorithms. I understand what happens when your system breaks at two in the morning and there's real money on the line. Plus, I've proven I can learn. Almost a million lines of production code, over seven hundred tests, multi-agent systems, voice pipelines — all built in under two years. I don't just know the theory, I've built the systems. And I bring a perspective that most engineers don't have.",
+        "expected": "Honestly? Hire me because of it, not despite it. Thirty years of managing complex operations — distributed teams, time-critical logistics, decisions with incomplete data — that's exactly the kind of systems thinking that makes good AI infrastructure. CS graduates understand algorithms. I understand what happens when your system breaks at two in the morning and there's real money on the line. Plus, I've proven I can learn. Almost a million lines of production code, over two thousand tests, multi-agent systems, voice pipelines — all built in under two years. I don't just know the theory, I've built the systems. And I bring a perspective that most engineers don't have.",
     },
 }
 
